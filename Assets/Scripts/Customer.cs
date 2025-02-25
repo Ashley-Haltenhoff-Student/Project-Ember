@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,15 +8,41 @@ public class Customer : MonoBehaviour
 {
     [SerializeField] private Vector3 spawnPoint = new Vector3 (-7.5f, -2.5f, 0);
 
+
+
+    [SerializeField] private Vector3 sittingPosition = Vector3.zero;
+    [SerializeField] private bool isSitting = false;
+
+
     [SerializeField] private Player player;
-    // table manager connection
+    [SerializeField] private TableManager tableManager;
 
-    private bool isSitting;
-
+    [SerializeField] private NavMeshAgent agent;
 
     private void Start()
     {
-        //Spawn();
+        // Get Connections
+        player = FindFirstObjectByType<Player>();
+        tableManager = FindFirstObjectByType<TableManager>();
+        agent = GetComponent<NavMeshAgent>();
+
+        Spawn();
+    }
+
+    private void Update()
+    {
+        if (sittingPosition != Vector3.zero)
+        {
+            if (Vector2.Distance(sittingPosition, transform.position) > 0.5f)
+            {
+                agent.SetDestination(sittingPosition);
+            }
+            else
+            {
+                isSitting = true;
+                sittingPosition = Vector3.zero;
+            }
+        }
     }
 
     private void Spawn()
@@ -27,7 +54,21 @@ public class Customer : MonoBehaviour
 
     private void OrderingSequence()
     {
-        // Find seat // Table Manager
+        // Find table and update occupiancy 
+        List<Table> tables = tableManager.GetOpenTables();
+        Table chosenTable = tables[Random.Range(0, tables.Count)];
+        tableManager.TableIsOccupied(chosenTable);
+
+        // Find seat
+        Vector2[] seatOptions = chosenTable.GetSeatPositions(); // Get seat positions
+        Vector2 seat = seatOptions[Random.Range(0, seatOptions.Length)];
+
+        if (seat != null)
+        {
+            sittingPosition = seat;
+        }
+        else { Debug.Log("Seat is null"); }
+
         // Decide on order
         // Display order
     }
@@ -36,7 +77,9 @@ public class Customer : MonoBehaviour
     {
         // Set the player's position to the customer
         //player.gameObject.transform.position = gameObject.transform.position;
-        player.GetComponent<NavMeshAgent>().SetDestination(gameObject.transform.position);
-        Debug.Log("Mouse Down");
+        if (isSitting)
+        {
+            player.GetComponent<NavMeshAgent>().SetDestination(gameObject.transform.position);
+        }
     }
 }
