@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class Customer : MonoBehaviour
 {
-    [SerializeField] private Vector3 spawnPoint = new Vector3 (-7.5f, -2.5f, 0);
+    [SerializeField] private Vector3 spawnPoint = new Vector3 (-11.5f, -1f, 0);
 
 
 

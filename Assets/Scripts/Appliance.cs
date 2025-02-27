@@ -10,14 +10,17 @@ public class Appliance : MonoBehaviour
 
     private void Start()
     {
-        player.GetComponent<NavMeshAgent>();
+        if (window.activeSelf) { window.SetActive(false); }
+
+        playerAgent = player.GetComponent<NavMeshAgent>();
     }
 
     private void OnMouseDown()
     {
-        player.GetComponent<NavMeshAgent>().SetDestination(transform.position);
+        playerAgent.SetDestination(transform.position);
+        Vector3 destination = playerAgent.destination;
         
-        if (window) { player.OpenWindow(gameObject.GetComponent<Appliance>()); }
+        if (window) { player.OpenWindow(this, destination); }
     }
 
     public GameObject GetApplianceWindow() { return window; }
