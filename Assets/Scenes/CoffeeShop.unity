@@ -2134,7 +2134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distance: 130
-  topNotifPos: {x: 0, y: -100, z: 0}
+  topNotifPos: {x: 0, y: 200}
   notifications: []
   notificationPrefab: {fileID: 1434720261598911476, guid: b2c9c963e7224bd40a35ee09e35941c0, type: 3}
   notificationParent: {fileID: 76014092}

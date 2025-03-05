@@ -7,7 +7,7 @@ public class NotificationManager : MonoBehaviour
 {
     [Tooltip("The distance between each notication vertically")]
     [SerializeField] private float distance;
-    [SerializeField] private Vector3 topNotifPos;
+    [SerializeField] private Vector2 topNotifPos;
 
     [SerializeField] private List<GameObject> notifications;
     [SerializeField] private GameObject notificationPrefab;
@@ -17,9 +17,10 @@ public class NotificationManager : MonoBehaviour
     public void Notify(string message)
     {
         // Instantiate
-        GameObject newNotif = Instantiate(notificationPrefab, topNotifPos,Quaternion.identity, notificationParent.transform);
-        newNotif.GetComponentInChildren<Text>().text = message;
+        GameObject newNotif = Instantiate(notificationPrefab, Vector3.zero, Quaternion.identity, notificationParent.transform);
         notifications.Add(newNotif);
+        newNotif.GetComponentInChildren<Text>().text = message + notifications.Count;
+        Debug.Log(newNotif.transform.localPosition);
 
         // Move every notifcation down
         UpdatePositions();
@@ -35,27 +36,29 @@ public class NotificationManager : MonoBehaviour
 
         for (int i = 0; i < notifications.Count; i++)
         {
+            if (i > 3)
+            {
+                DeleteNotification(notifications[i]);
+                UpdatePositions();
+                return;
+            }
+
             if (i == notifications.Count - 1)
             {
-                notifications[i].transform.position = topNotifPos;
+                notifications[i].transform.localPosition = topNotifPos;
             }
             else
             {
-                // Calculate the distance vertically by the amount of gameobjects in the list
-                float distanceFromTop = distance * (notifications.Count - i);
-                Debug.Log(distanceFromTop);
+            // Calculate the distance vertically by the amount of gameobjects in the list
+                float distanceFromTop = distance * (notifications.Count - i - 1);
                 float verticalPos = topNotifPos.y - distanceFromTop;
-                Debug.Log(verticalPos);
-                // Math is wrong!
 
-                // move down
-                notifications[i].transform.position = new Vector3 
-                    (notifications[i].transform.position.x, 
+            // move down
+                notifications[i].transform.localPosition = new Vector3 
+                    (notifications[i].transform.localPosition.x, 
                     verticalPos, 0f);
 
             }
-
-
         }
     }
 
@@ -63,11 +66,14 @@ public class NotificationManager : MonoBehaviour
     {
         yield return new WaitForSeconds(4);
 
-        DeleteNotifcation(notification);
+        if (notification)
+        {
+            DeleteNotification(notification);
+        }
     }
 
 
-    private void DeleteNotifcation(GameObject notification)
+    private void DeleteNotification(GameObject notification)
     {
         notifications.Remove(notification);
         Destroy(notification);
