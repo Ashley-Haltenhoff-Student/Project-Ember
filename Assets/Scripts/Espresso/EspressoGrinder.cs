@@ -23,6 +23,8 @@ public class EspressoGrinder : LockSpot
         {
             canRemove = false;
             StartCoroutine(Grind());
+
+            isFilled = false;
         }
         else { canRemove = true; }
     }
@@ -33,21 +35,24 @@ public class EspressoGrinder : LockSpot
         if (isFilled)
         {
             Debug.Log("There's already coffee beans in the grinder");
+            notifyManager.Notify("There's already coffee beans in the grinder");
         }
         else
         {
             isFilled = true;
             Debug.Log("Espresso machine filled");
+            notifyManager.Notify("Espresso machine filled");
         }
     }
 
     private IEnumerator Grind()
     {
         Debug.Log("Grinding...");
+        notifyManager.Notify("Grinding...");
         yield return new WaitForSeconds(4);
         Debug.Log("Grinding complete!");
+        notifyManager.Notify("Grinding complete!");
 
         canRemove = true;
-        isFilled = false;
     }
 }

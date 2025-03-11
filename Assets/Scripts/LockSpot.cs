@@ -5,10 +5,11 @@ public class LockSpot : MonoBehaviour
 {
     [SerializeField] protected GameObject window;
     [SerializeField] protected Animator animator;
+    [SerializeField] protected NotifyManager notifyManager;
 
     protected bool isWaiting = false;
     protected bool isLocked = false;
-    protected bool canRemove = true; // not in work
+    protected bool canRemove = true; // not in works
 
     private void Start()
     {

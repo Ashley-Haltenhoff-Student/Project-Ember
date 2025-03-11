@@ -4,6 +4,7 @@ using UnityEngine;
 public class EspressoBrewer : LockSpot
 {
     private bool canBrew = false;
+    
 
     protected override void IsLockedActions()
     {

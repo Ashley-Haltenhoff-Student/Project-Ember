@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NotificationManager : MonoBehaviour
+
+public class NotifyManager : MonoBehaviour
 {
     [Tooltip("The distance between each notication vertically")]
     [SerializeField] private float distance;
@@ -19,7 +20,7 @@ public class NotificationManager : MonoBehaviour
         // Instantiate
         GameObject newNotif = Instantiate(notificationPrefab, Vector3.zero, Quaternion.identity, notificationParent.transform);
         notifications.Add(newNotif);
-        newNotif.GetComponentInChildren<Text>().text = message + notifications.Count;
+        newNotif.GetComponentInChildren<Text>().text = message;
         Debug.Log(newNotif.transform.localPosition);
 
         // Move every notifcation down
@@ -28,6 +29,7 @@ public class NotificationManager : MonoBehaviour
         // Lifespan
         StartCoroutine(WaitToDestroy(newNotif));
 
+        Debug.Log("Notifcation: " + message);
     }
 
     // Called whenever a new notif is introduced
