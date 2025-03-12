@@ -6,21 +6,24 @@ using UnityEngine;
 public class DraggableObject : MonoBehaviour
 {
     [Tooltip("The lock spots in the window this object can lock into")]
-    [SerializeField] private LockSpot[] lockSpots;
+    [SerializeField] protected LockSpot[] lockSpots;
 
-    [Tooltip("The position the object returns to if it cannot lock onto another object")]
+    [Tooltip("The position the object returns to if it cannot lock onto another object (automatically set at start-up)")]
     [SerializeField] protected Vector3 returnPoint;
 
 
-    [SerializeField] private bool canMove = true;
+    [SerializeField] protected bool canMove = true;
 
-    private void Start()
+    protected GameObject lastLockPoint;
+
+    protected void Start()
     {
         returnPoint = transform.position;
     }
 
-    private void OnMouseDrag()
+    protected void OnMouseDrag()
     { 
+        // Check if object is locked on any object to determine if it can move
         foreach (LockSpot s in lockSpots)
         {
             if (!s.CanRemove())
@@ -35,6 +38,7 @@ public class DraggableObject : MonoBehaviour
 
         if (canMove)
         {
+            // Get mouse position
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         
             // Clamp between the windows borders
@@ -45,12 +49,13 @@ public class DraggableObject : MonoBehaviour
 
             foreach (LockSpot s in lockSpots)
             {
+                // Start lock spots' ability to lock the object in place
                 s.BeginLockableState(gameObject);
             }
         }
     }
 
-    private void OnMouseUp()
+    protected void OnMouseUp()
     {
         bool isLocked = false;
 
@@ -62,6 +67,7 @@ public class DraggableObject : MonoBehaviour
             if (s.IsLocked())
             {
                 isLocked = true;
+                lastLockPoint = s.gameObject;
             }
         }
 

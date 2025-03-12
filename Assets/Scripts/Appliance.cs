@@ -4,9 +4,12 @@ using UnityEngine.AI;
 public class Appliance : MonoBehaviour
 {
     [SerializeField] private GameObject window; // gameplay window
-
     [SerializeField] private Player player;
-    public NavMeshAgent playerAgent;
+    [SerializeField] private NavMeshAgent playerAgent;
+
+    [Tooltip("The max distance the player needs to be to open the window")]
+    [SerializeField] private float maxDistance;
+
 
     private void Start()
     {
@@ -20,7 +23,7 @@ public class Appliance : MonoBehaviour
         playerAgent.SetDestination(transform.position);
         Vector3 destination = playerAgent.destination;
         
-        if (window) { player.OpenWindow(this, destination); }
+        if (window) { player.OpenWindow(this, destination, maxDistance); }
     }
 
     public GameObject GetApplianceWindow() { return window; }

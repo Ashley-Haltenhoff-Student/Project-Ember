@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 19741328}
   - component: {fileID: 19741331}
   - component: {fileID: 19741330}
-  - component: {fileID: 19741329}
+  - component: {fileID: 19741332}
   m_Layer: 0
   m_Name: Brew Spot
   m_TagString: Untagged
@@ -154,21 +154,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 783073770418373055}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &19741329
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 19741327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 868668f549276d44b9e60605b69841d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  window: {fileID: 660638280}
-  animator: {fileID: 0}
-  notifyManager: {fileID: 694900007}
 --- !u!95 &19741330
 Animator:
   serializedVersion: 7
@@ -243,6 +228,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &19741332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19741327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0c54c5aed77a2647839a7a1c930bda7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  window: {fileID: 660638280}
+  animator: {fileID: 0}
+  notifyManager: {fileID: 694900007}
+  canBrew: 0
 --- !u!1 &76014092
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,6 +470,10 @@ PrefabInstance:
       propertyPath: window
       value: 
       objectReference: {fileID: 2100730191}
+    - target: {fileID: 9179059739050820863, guid: 25ccc434138aca247a26e9eee89f7a61, type: 3}
+      propertyPath: maxDistance
+      value: 1.45
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -549,7 +554,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 51
+  m_SortingOrder: 50
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.34509805, g: 0.10980393, b: 0.10980393, a: 1}
   m_FlipX: 0
@@ -2025,7 +2030,7 @@ Transform:
   m_GameObject: {fileID: 693781155}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.92, y: 1.77, z: 0}
+  m_LocalPosition: {x: -2.38, y: -1.66, z: 0}
   m_LocalScale: {x: 0.4762, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2211,6 +2216,10 @@ PrefabInstance:
       propertyPath: window
       value: 
       objectReference: {fileID: 660638280}
+    - target: {fileID: 9179059739050820863, guid: 25ccc434138aca247a26e9eee89f7a61, type: 3}
+      propertyPath: maxDistance
+      value: 1.25
+      objectReference: {fileID: 0}
     - target: {fileID: 9179059739050820863, guid: 25ccc434138aca247a26e9eee89f7a61, type: 3}
       propertyPath: playerAgent
       value: 
@@ -2783,8 +2792,8 @@ GameObject:
   m_Component:
   - component: {fileID: 973485594}
   - component: {fileID: 973485595}
-  - component: {fileID: 973485596}
   - component: {fileID: 973485597}
+  - component: {fileID: 973485598}
   m_Layer: 0
   m_Name: portafilter
   m_TagString: Untagged
@@ -2859,23 +2868,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &973485596
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 973485593}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee94e0ecd5894ce48beb57b6b9a50e6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lockSpots:
-  - {fileID: 6920353508136326437}
-  - {fileID: 19741329}
-  returnPoint: {x: 0, y: 0, z: 0}
-  canMove: 1
 --- !u!61 &973485597
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2922,6 +2914,25 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 3, y: 0.8300152}
   m_EdgeRadius: 0
+--- !u!114 &973485598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 973485593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7206315d8f6292b4c9c4d6d526a8bc81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lockSpots:
+  - {fileID: 19741332}
+  - {fileID: 6920353508136326437}
+  returnPoint: {x: 0, y: 0, z: 0}
+  canMove: 1
+  brewer: {fileID: 19741332}
+  grinder: {fileID: 6920353508136326437}
 --- !u!1 &1043357744
 GameObject:
   m_ObjectHideFlags: 0
@@ -3531,7 +3542,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 49
+  m_SortingOrder: 48
   m_Sprite: {fileID: 7482667652216324306, guid: 6ce9a3f882ad7d44784a74a728c99da6, type: 3}
   m_Color: {r: 0.8196079, g: 0.8705883, b: 0.8941177, a: 1}
   m_FlipX: 0
@@ -7791,7 +7802,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 50
+  m_SortingOrder: 49
   m_Sprite: {fileID: 7482667652216324306, guid: 6ce9a3f882ad7d44784a74a728c99da6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

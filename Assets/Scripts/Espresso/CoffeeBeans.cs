@@ -7,7 +7,6 @@ public class CoffeeBeans : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log("Attempting to Fill");
         espressoGrinder.Fill(); // With coffee beans
     }
 }

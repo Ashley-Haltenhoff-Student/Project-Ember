@@ -10,6 +10,7 @@ public class LockSpot : MonoBehaviour
     protected bool isWaiting = false;
     protected bool isLocked = false;
     protected bool canRemove = true; // not in works
+    protected bool canBeLocked = true;
 
     private void Start()
     {
@@ -18,7 +19,7 @@ public class LockSpot : MonoBehaviour
 
     public void BeginLockableState(GameObject lockableObject)
     {
-        if (!isWaiting) // Ensure there isn't already a coroutine in process
+        if (!isWaiting && canBeLocked) // Ensure there isn't already a coroutine in process
         {
             StartCoroutine(WaitForLock(lockableObject));
         }
@@ -37,8 +38,14 @@ public class LockSpot : MonoBehaviour
             if (Vector2.Distance(lockableObject.transform.position, transform.position) <= 0.5f)
             {
                 lockableObject.transform.position = transform.position;
+                
+
+                // Ensure you're not doing the lock options more than once
+                if (!isLocked)
+                {
+                    IsLockedActions();
+                }
                 isLocked = true;
-                IsLockedActions();
             }
             else { isLocked = false; }
 
@@ -57,6 +64,6 @@ public class LockSpot : MonoBehaviour
 
     protected virtual void IsLockedActions()
     {
-
+        
     }
 }

@@ -12,19 +12,19 @@ public class Player : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
     }
 
-    public void OpenWindow(Appliance appliance, Vector3 applianceDestination)
+    public void OpenWindow(Appliance appliance, Vector3 applianceDestination, float minimalDistance)
     {
-        StartCoroutine(WaitToOpenWindow(appliance, applianceDestination));
+        StartCoroutine(WaitToOpenWindow(appliance, applianceDestination, minimalDistance));
     }
 
-    private IEnumerator WaitToOpenWindow(Appliance appliance, Vector3 applianceDestination)
+    private IEnumerator WaitToOpenWindow(Appliance appliance, Vector3 applianceDestination, float maxDistance)
     {
         // While the agent is still pursing the specific appliance
         while (applianceDestination == agent.destination)
         {
 
             // if the player has reached a specific distance from the appliance
-            if (Vector2.Distance(transform.position, agent.destination) <= 1.25)
+            if (Vector2.Distance(transform.position, agent.destination) <= maxDistance)
             {
                 appliance.GetApplianceWindow().SetActive(true); // open appliance window
                 break;
