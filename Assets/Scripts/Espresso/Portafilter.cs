@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Portafilter : DraggableObject
 {
-    private bool hasCoffeeGrinds = false;
 
+    [Header("Connections")]
     [SerializeField] private EspressoBrewer brewer;
     [SerializeField] private EspressoGrinder grinder;
-
+    [SerializeField] private EspressoControl control;
 
     private void Start()
     {
@@ -16,12 +16,17 @@ public class Portafilter : DraggableObject
 
         if (!brewer)
         {
-            Debug.Log("Component Error: There is no brewer available");
+            brewer = FindFirstObjectByType<EspressoBrewer>();
         }
 
         if (!grinder)
         {
-            Debug.Log("Component Error: There is no grinder available");
+            grinder = FindFirstObjectByType<EspressoGrinder>();
+        }
+
+        if (!control)
+        {
+            control = FindFirstObjectByType<EspressoControl>();
         }
     }
 
@@ -29,33 +34,32 @@ public class Portafilter : DraggableObject
     {
         base.OnMouseDrag();
 
-        if (!hasCoffeeGrinds)
+        if (!control.PortHasGrinds())
         {
-            brewer.SetCanBrew(false);
-            grinder.SetCanGrind(true);
+            control.CanGrind(true);
+            control.CanBrew(false);
+
         }
         else
         {
-            brewer.SetCanBrew(true);
-            grinder.SetCanGrind(false);
+            control.CanGrind(false);
+            control.CanBrew(true);
         }
     }
 
-    private void OnMouseUp()
+    private void Update()
     {
-        base.OnMouseUp();
-
 
         // Verify if the portafilter is locked into the coffee grinder
-        if (lastLockPoint == brewer.gameObject && hasCoffeeGrinds)
+        if (lastLockPoint == brewer.gameObject && control.PortHasGrinds())
         {
-            brewer.SetCanBrew(true);
-            hasCoffeeGrinds = false;
+            control.CanBrew(true);
+            control.PortHasGrinds(false);
         }
 
-        if (lastLockPoint == grinder.gameObject && grinder.IsFilled())
+        if (lastLockPoint == grinder.gameObject && !control.PortHasGrinds())
         {
-            hasCoffeeGrinds = true;
+            control.PortHasGrinds(true);
         }
     }
 }

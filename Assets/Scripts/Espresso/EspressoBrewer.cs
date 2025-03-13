@@ -3,13 +3,22 @@ using UnityEngine;
 
 public class EspressoBrewer : LockSpot
 {
-    [SerializeField] private bool canBrew = false;
-    
+    [SerializeField] private EspressoControl control;
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+
+        if (!control)
+        {
+            control = FindFirstObjectByType<EspressoControl>();
+        }
+    }
 
     protected override void IsLockedActions()
     {
 
-        if (canBrew)
+        if (control.CanBrew())
         {
             StartCoroutine(Brew());
         }
@@ -24,12 +33,6 @@ public class EspressoBrewer : LockSpot
         notifyManager.Notify("Brewing complete!");
 
         canRemove = true;
-        canBrew = false;
+        control.CanBrew(false);
     }
-
-    public void SetCanBrew(bool canBrew)
-    {
-        this.canBrew = canBrew;
-    }
-
 }

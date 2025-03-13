@@ -1,12 +1,22 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EspressoGrinder : LockSpot
 {
 
     private bool isFilled = false; // Filled with coffee beans
-    private bool canGrind = true;
+
+    [SerializeField] private EspressoControl control;
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+
+        if (!control)
+        {
+            control = FindFirstObjectByType<EspressoControl>();
+        }
+    }
 
     public override void StopWaiting()
     {
@@ -14,13 +24,13 @@ public class EspressoGrinder : LockSpot
 
         if (isLocked && !isFilled)
         {
-            Debug.Log("There are no coffee beans ready to grind!");
+            notifyManager.Notify("There are no coffee beans ready to grind!");
         }
     }
 
     protected override void IsLockedActions()
     {
-        if (isFilled && canRemove && canGrind)
+        if (isFilled && canRemove && control.CanGrind())
         {
             canRemove = false;
             StartCoroutine(Grind());
@@ -56,14 +66,10 @@ public class EspressoGrinder : LockSpot
         yield return new WaitForSeconds(4);
         notifyManager.Notify("Grinding complete!");
 
+        control.PortHasGrinds(true);
         canRemove = true;
         isFilled = false;
     }
 
     public bool IsFilled() {  return isFilled; }
-
-    public void SetCanGrind(bool canGrind)
-    {
-        this.canGrind = canGrind;
-    }
 }

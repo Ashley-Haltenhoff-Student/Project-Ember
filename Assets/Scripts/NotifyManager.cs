@@ -21,7 +21,6 @@ public class NotifyManager : MonoBehaviour
         GameObject newNotif = Instantiate(notificationPrefab, Vector3.zero, Quaternion.identity, notificationParent.transform);
         notifications.Add(newNotif);
         newNotif.GetComponentInChildren<Text>().text = message;
-        Debug.Log(newNotif.transform.localPosition);
 
         // Move every notifcation down
         UpdatePositions();
