@@ -27,8 +27,6 @@ public class NotifyManager : MonoBehaviour
 
         // Lifespan
         StartCoroutine(WaitToDestroy(newNotif));
-
-        Debug.Log("Notifcation: " + message);
     }
 
     // Called whenever a new notif is introduced

@@ -17,6 +17,7 @@ public class EspressoGrinder : LockSpot
             control = FindFirstObjectByType<EspressoControl>();
         }
     }
+ 
 
     public override void StopWaiting()
     {
@@ -30,14 +31,17 @@ public class EspressoGrinder : LockSpot
 
     protected override void IsLockedActions()
     {
-        if (isFilled && canRemove && control.CanGrind())
+        if (isFilled)
         {
             canRemove = false;
+            control.CanGrind(true);
             StartCoroutine(Grind());
-
-            
         }
-        else { canRemove = true; }
+        else 
+        { 
+            canRemove = true; 
+            control.CanGrind(false);
+        }
     }
 
 
@@ -51,6 +55,9 @@ public class EspressoGrinder : LockSpot
         {
             isFilled = true;
             notifyManager.Notify("Espresso machine filled");
+
+            control.CanGrind();
+            
 
             if (isLocked)
             {
@@ -66,7 +73,10 @@ public class EspressoGrinder : LockSpot
         yield return new WaitForSeconds(4);
         notifyManager.Notify("Grinding complete!");
 
-        control.PortHasGrinds(true);
+        
+        control.CanBrew(true);
+        control.CanGrind(false);
+
         canRemove = true;
         isFilled = false;
     }

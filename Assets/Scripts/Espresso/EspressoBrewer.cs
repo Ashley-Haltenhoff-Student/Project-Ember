@@ -32,7 +32,10 @@ public class EspressoBrewer : LockSpot
         yield return new WaitForSeconds(3);
         notifyManager.Notify("Brewing complete!");
 
+        // Update variables
         canRemove = true;
         control.CanBrew(false);
+
+        control.AddEspresso(); // Add to inventory
     }
 }
