@@ -7,11 +7,11 @@ public class CustomerManager : MonoBehaviour
     [Header("Connections")]
     [SerializeField] private UIManager UIManager;
     [SerializeField] private TableManager tableManager;
-    // Orders manager connection
-    
+    [SerializeField] private OrderManager orderManager;
+
+    [Header("Customer Data")]
     [SerializeField] private List<Customer> customers;
     [SerializeField] private GameObject customerPrefab;
-
     [SerializeField] private int maxCustomers = 2;
     [SerializeField] private float secondsBetweenSpawn = 3f;
 
@@ -43,14 +43,9 @@ public class CustomerManager : MonoBehaviour
                 Customer customer = newCustomer.GetComponent<Customer>(); // access the script
 
                 customers.Add(customer); // Add to List
-                customer.Order = GiveOrder(); // Assign Order
+                customer.Order = orderManager.GetNewOrder(); // Assign Order
             }
             yield return null;
         }
-    }
-
-    private Order GiveOrder()
-    {
-        return null;
     }
 }

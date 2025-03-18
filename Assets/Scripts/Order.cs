@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class Order : MonoBehaviour
 {
-    private new string name;   
-    private SpriteRenderer spriteRenderer;
+    private new string name;
+    private int orderNumber;
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
-    private void Awake()
+    private void Start()
     {
         if (!spriteRenderer)
         {
@@ -22,6 +23,9 @@ public class Order : MonoBehaviour
         get { return name; } 
         set { name = value; }
     }
+
+    public int OrderNumber { get; set; }
+
     public SpriteRenderer SpriteRenderer => spriteRenderer;
     
 }

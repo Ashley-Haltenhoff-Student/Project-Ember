@@ -18,14 +18,21 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject pauseMenu;
 
     [Header("Orders")]
-    [SerializeField] private GameObject orders;
-    [SerializeField] private GameObject orderPrefab;
+    [SerializeField] private GameObject orderUIPrefab;
+
+
+    public void AddOrder(Order order, string customerName)
+    {
+        
+        
+        
+        
+    }
+
+    public void RemoveOrder(Order order)
+    {
+        
+    }
 
     
-    public void AddOrder(string name, string order)
-    {
-        //Instantiate(orderPrefab, orders.transform);
-
-
-    }
 }

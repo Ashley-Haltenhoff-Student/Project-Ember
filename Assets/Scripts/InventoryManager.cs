@@ -34,8 +34,9 @@ public class InventoryManager : MonoBehaviour
         {
             if (inventory[i] == null)
             {
-                inventory[i] = obj.GetComponent<Order>(); // Add order
-                inventorySprites[i].sprite = inventory[i].SpriteRenderer.sprite; // Update Sprite
+                Order order = obj.GetComponent<Order>();
+                inventory[i] = order; // Add order
+                inventorySprites[i].sprite = order.SpriteRenderer.sprite; // Update Sprite
 
                 notifyManager.Notify(obj.name + " added to inventory!");
 

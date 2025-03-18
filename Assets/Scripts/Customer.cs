@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,10 +15,12 @@ public class Customer : MonoBehaviour
 
     [SerializeField] private Player player;
     [SerializeField] private TableManager tableManager;
+    [SerializeField] private UIManager UI;
 
-    [SerializeField] private NavMeshAgent agent;
+    private NavMeshAgent agent;
 
     private Order order;
+    new private string name;
     
 
     private void Start()
@@ -28,6 +29,7 @@ public class Customer : MonoBehaviour
         player = FindFirstObjectByType<Player>();
         tableManager = FindFirstObjectByType<TableManager>();
         agent = GetComponent<NavMeshAgent>();
+        UI = FindAnyObjectByType<UIManager>();  
 
         Spawn();
     }
@@ -92,9 +94,10 @@ public class Customer : MonoBehaviour
             yield return null;
         }
 
-        // more code
+        UI.AddOrder(order, name);
 
     }
 
     public Order Order { get; set; }
+    public string Name { get; set; }
 }

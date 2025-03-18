@@ -4,8 +4,8 @@ using UnityEngine;
 public class LockSpot : MonoBehaviour
 {
     [SerializeField] protected GameObject window;
-    [SerializeField] protected Animator animator;
     [SerializeField] protected NotifyManager notifyManager;
+    protected Animator animator; // Found at startup
 
     protected bool isWaiting = false;
     protected bool isLocked = false;
@@ -58,6 +58,7 @@ public class LockSpot : MonoBehaviour
 
     public virtual void StopWaiting() { isWaiting = false; }
 
+    //public bool IsLocked => isLocked;
     public bool IsLocked() {  return isLocked; }
 
     public bool CanRemove() { return canRemove; }
