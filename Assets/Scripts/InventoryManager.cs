@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
-    [SerializeField] private GameObject[] inventory = new GameObject[5];
+    [SerializeField] private Order[] inventory = new Order[5];
     [SerializeField] private Image[] inventorySprites = new Image[5];
 
     [SerializeField] private NotifyManager notifyManager;
@@ -34,8 +34,8 @@ public class InventoryManager : MonoBehaviour
         {
             if (inventory[i] == null)
             {
-                inventory[i] = obj; // Add gameobject
-                inventorySprites[i].sprite = obj.GetComponent<SpriteRenderer>().sprite; // Update sprite
+                inventory[i] = obj.GetComponent<Order>(); // Add order
+                inventorySprites[i].sprite = inventory[i].SpriteRenderer.sprite; // Update Sprite
 
                 notifyManager.Notify(obj.name + " added to inventory!");
 

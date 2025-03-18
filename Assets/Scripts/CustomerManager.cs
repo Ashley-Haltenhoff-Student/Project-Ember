@@ -29,7 +29,7 @@ public class CustomerManager : MonoBehaviour
         while (spawning)
         {
             // Ensure there are open tables
-            if (tableManager.GetOpenTables().Count <= 0)
+            if (tableManager.OpenTables.Count <= 0)
             {
                 spawning = false;
             }
@@ -40,9 +40,17 @@ public class CustomerManager : MonoBehaviour
                 yield return new WaitForSeconds(secondsBetweenSpawn);
 
                 GameObject newCustomer = Instantiate(customerPrefab);
-                customers.Add(newCustomer.GetComponent<Customer>());
+                Customer customer = newCustomer.GetComponent<Customer>(); // access the script
+
+                customers.Add(customer); // Add to List
+                customer.Order = GiveOrder(); // Assign Order
             }
             yield return null;
         }
+    }
+
+    private Order GiveOrder()
+    {
+        return null;
     }
 }

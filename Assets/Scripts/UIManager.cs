@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -15,6 +17,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject journal;
     [SerializeField] private GameObject pauseMenu;
 
-    
+    [Header("Orders")]
+    [SerializeField] private GameObject orders;
+    [SerializeField] private GameObject orderPrefab;
 
+    
+    public void AddOrder(string name, string order)
+    {
+        //Instantiate(orderPrefab, orders.transform);
+
+
+    }
 }

@@ -1,3 +1,4 @@
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,6 +12,7 @@ public class Appliance : MonoBehaviour
     [SerializeField] private float maxDistance;
 
 
+
     private void Start()
     {
         if (window.activeSelf) { window.SetActive(false); }
@@ -22,9 +24,10 @@ public class Appliance : MonoBehaviour
     {
         playerAgent.SetDestination(transform.position);
         Vector3 destination = playerAgent.destination;
-        
+
         if (window) { player.OpenWindow(this, destination, maxDistance); }
     }
 
-    public GameObject GetApplianceWindow() { return window; }
+    public GameObject ApplianceWindow { get { return window; }}
+
 }

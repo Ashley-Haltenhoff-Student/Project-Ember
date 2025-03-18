@@ -19,6 +19,9 @@ public class Customer : MonoBehaviour
 
     [SerializeField] private NavMeshAgent agent;
 
+    private Order order;
+    
+
     private void Start()
     {
         // Get Connections
@@ -45,6 +48,15 @@ public class Customer : MonoBehaviour
         }
     }
 
+    private void OnMouseDown()
+    {
+        // Set the player's position to the customer
+        //player.gameObject.transform.position = gameObject.transform.position;
+        if (isSitting)
+        {
+            player.GetComponent<NavMeshAgent>().SetDestination(gameObject.transform.position);
+        }
+    }
     private void Spawn()
     {
         gameObject.transform.position = spawnPoint;
@@ -55,12 +67,12 @@ public class Customer : MonoBehaviour
     private void OrderingSequence()
     {
         // Find table and update occupiancy 
-        List<Table> tables = tableManager.GetOpenTables();
+        List<Table> tables = tableManager.OpenTables;
         Table chosenTable = tables[Random.Range(0, tables.Count)];
         tableManager.TableIsOccupied(chosenTable);
 
         // Find seat
-        Vector2[] seatOptions = chosenTable.GetSeatPositions(); // Get seat positions
+        Vector2[] seatOptions = chosenTable.SeatPositions; // Get seat positions
         Vector2 seat = seatOptions[Random.Range(0, seatOptions.Length)];
 
         if (seat != null)
@@ -69,17 +81,20 @@ public class Customer : MonoBehaviour
         }
         else { Debug.Log("Seat is null"); }
 
-        // Decide on order
-        // Display order
+        // Start Order
+        StartCoroutine(OrderDrink());
     }
 
-    private void OnMouseDown()
+    private IEnumerator OrderDrink()
     {
-        // Set the player's position to the customer
-        //player.gameObject.transform.position = gameObject.transform.position;
-        if (isSitting)
+        while (!isSitting)
         {
-            player.GetComponent<NavMeshAgent>().SetDestination(gameObject.transform.position);
+            yield return null;
         }
+
+        // more code
+
     }
+
+    public Order Order { get; set; }
 }

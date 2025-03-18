@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
             // if the player has reached a specific distance from the appliance
             if (Vector2.Distance(transform.position, agent.destination) <= maxDistance)
             {
-                appliance.GetApplianceWindow().SetActive(true); // open appliance window
+                appliance.ApplianceWindow.SetActive(true); // open appliance window
                 break;
             }
             yield return null;
@@ -34,6 +34,6 @@ public class Player : MonoBehaviour
 
         // Wait for escape to be pressed to hide the appliance window
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Escape));
-        appliance.GetApplianceWindow().SetActive(false);
+        appliance.ApplianceWindow.SetActive(false);
     }
 }

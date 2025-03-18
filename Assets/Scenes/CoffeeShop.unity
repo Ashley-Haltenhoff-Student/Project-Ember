@@ -278,7 +278,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -200, y: -450}
+  m_AnchoredPosition: {x: -200, y: -471}
   m_SizeDelta: {x: 350, y: 605.9921}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &76014094
@@ -1776,7 +1776,6 @@ MonoBehaviour:
   espressoPrefab: {fileID: 4533829453735382833, guid: bca997aa9a685d347bf31163df6fc9c1, type: 3}
   canBrew: 0
   canGrind: 0
-  portHasGrinds: 0
 --- !u!1 &653535059
 GameObject:
   m_ObjectHideFlags: 0
@@ -2491,8 +2490,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -75, y: -75}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -525, y: -87.5}
+  m_SizeDelta: {x: 1000, y: 125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &825422887
 MonoBehaviour:
@@ -2507,7 +2506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9215687, g: 0.9215687, b: 0.9215687, a: 1}
+  m_Color: {r: 0.9215687, g: 0.9215687, b: 0.9215687, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3279,9 +3278,6 @@ MonoBehaviour:
   - {fileID: 6920353508136326437}
   returnPoint: {x: 0, y: 0, z: 0}
   canMove: 1
-  brewer: {fileID: 19741332}
-  grinder: {fileID: 6920353508136326437}
-  control: {fileID: 0}
 --- !u!1 &1043357744
 GameObject:
   m_ObjectHideFlags: 0
@@ -8117,6 +8113,8 @@ MonoBehaviour:
   generalUI: {fileID: 0}
   journal: {fileID: 0}
   pauseMenu: {fileID: 0}
+  orders: {fileID: 0}
+  orderPrefab: {fileID: 0}
 --- !u!1 &2083624960
 GameObject:
   m_ObjectHideFlags: 0

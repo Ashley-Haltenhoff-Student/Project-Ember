@@ -18,15 +18,13 @@ public class TableManager : MonoBehaviour
         }
     }
 
-    public List<Table> GetOpenTables() { return openTables; }
-
     public void TableIsOccupied(Table table)
     {
         foreach (Table t in tables)
         {
             if (t == table)
             {
-                t.SetIsOccupied(true);
+                t.IsOccupied = true;
                 break;
             }
         }
@@ -39,7 +37,7 @@ public class TableManager : MonoBehaviour
     {
         foreach (Table t in tables)
         {
-            if (t.IsOccupied()) // if it's occupied
+            if (t.IsOccupied) // if it's occupied
             {
                 if (!busyTables.Contains(t)) // Not already in busy tables list
                 {
@@ -63,4 +61,6 @@ public class TableManager : MonoBehaviour
             }
         }
     }
+
+    public List<Table> OpenTables => openTables;
 }
