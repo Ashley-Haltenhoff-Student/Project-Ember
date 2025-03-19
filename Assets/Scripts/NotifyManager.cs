@@ -35,6 +35,7 @@ public class NotifyManager : MonoBehaviour
 
         for (int i = 0; i < notifications.Count; i++)
         {
+            // If there are too many notifications
             if (i > 3)
             {
                 DeleteNotification(notifications[i]);

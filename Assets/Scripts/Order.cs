@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Order : MonoBehaviour
 {
-    private new string name;
-    private int orderNumber;
+    [SerializeField] private new string name;
+    [SerializeField] private int orderNumber;
     [SerializeField] private SpriteRenderer spriteRenderer;
 
     private void Start()
@@ -24,7 +24,11 @@ public class Order : MonoBehaviour
         set { name = value; }
     }
 
-    public int OrderNumber { get; set; }
+    public int OrderNumber
+    {
+        get { return orderNumber; }
+        set { orderNumber = value; }
+    }
 
     public SpriteRenderer SpriteRenderer => spriteRenderer;
     

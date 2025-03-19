@@ -15,12 +15,15 @@ public class Customer : MonoBehaviour
 
     [SerializeField] private Player player;
     [SerializeField] private TableManager tableManager;
+    [SerializeField] private OrderManager orderManager;
+    [SerializeField] private InventoryManager inventory;
+    [SerializeField] private NotifyManager notifyManager;
     [SerializeField] private UIManager UI;
 
     private NavMeshAgent agent;
 
-    private Order order;
-    new private string name;
+    [SerializeField] private Order order;
+    [SerializeField] new private string name;
     
 
     private void Start()
@@ -30,6 +33,8 @@ public class Customer : MonoBehaviour
         tableManager = FindFirstObjectByType<TableManager>();
         agent = GetComponent<NavMeshAgent>();
         UI = FindAnyObjectByType<UIManager>();  
+        notifyManager = FindAnyObjectByType<NotifyManager>();
+        inventory = FindFirstObjectByType<InventoryManager>();
 
         Spawn();
     }
@@ -48,12 +53,21 @@ public class Customer : MonoBehaviour
                 sittingPosition = Vector3.zero;
             }
         }
+
+        if (Vector2.Distance(player.transform.position, transform.position) < 2f)
+        {
+            if (inventory.Contains(order))
+            {
+                inventory.Remove(order);
+
+                notifyManager.Notify($"{name} got their order!");
+            }
+        }
     }
 
     private void OnMouseDown()
     {
         // Set the player's position to the customer
-        //player.gameObject.transform.position = gameObject.transform.position;
         if (isSitting)
         {
             player.GetComponent<NavMeshAgent>().SetDestination(gameObject.transform.position);
@@ -82,8 +96,11 @@ public class Customer : MonoBehaviour
             sittingPosition = seat;
         }
         else { Debug.Log("Seat is null"); }
+        
+    }
 
-        // Start Order
+    public void SitAndOrderDrink()
+    {
         StartCoroutine(OrderDrink());
     }
 
@@ -94,10 +111,44 @@ public class Customer : MonoBehaviour
             yield return null;
         }
 
-        UI.AddOrder(order, name);
+        // Wait for customer to sit down
+        // Develop decision time here
+        while (!isSitting)
+        {
+            yield return null;
+        }
 
+        // Add to List
+        
+        order = orderManager.GetNewOrder(name); // Assign Order
+
+        if (order != null)
+        {
+            Debug.Log($"customer {name} recieved the {order} order");
+        }
+        else
+        {
+            Debug.Log($"Customer {name} did not recieve the order correctly");
+        }
     }
 
-    public Order Order { get; set; }
-    public string Name { get; set; }
+    public Order Order 
+    { 
+        get { return order; } 
+        set { order = value; } 
+    }
+    public string Name
+    {
+        get { return name; }
+        set { name = value; }
+    }
+    public bool IsSitting
+    {
+        get { return IsSitting; }
+    }
+    public OrderManager OrderManager
+    {
+        get { return orderManager; }
+        set { orderManager = value; }
+    }
 }

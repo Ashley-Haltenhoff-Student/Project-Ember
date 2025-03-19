@@ -19,20 +19,55 @@ public class UIManager : MonoBehaviour
 
     [Header("Orders")]
     [SerializeField] private GameObject orderUIPrefab;
+    [SerializeField] private GameObject orders;
 
 
-    public void AddOrder(Order order, string customerName)
+    public UIOrder AddOrder(Order order, string customerName, List<UIOrder> uiOrders)
     {
+        GameObject obj = Instantiate(orderUIPrefab, this.orders.transform);
         
-        
-        
-        
+        UIOrder uiOrder = obj.GetComponent<UIOrder>();
+        uiOrder.Initiatialize(customerName, order.Name, order.OrderNumber);
+
+        UpdateOrderPos(uiOrders);
+
+        return uiOrder;
     }
 
-    public void RemoveOrder(Order order)
+    public void RemoveOrder(UIOrder order)
     {
-        
+        foreach (UIOrder o in orders.GetComponentsInChildren<UIOrder>())
+        {
+            if (o ==  order)
+            {
+                Destroy(o);
+                return;
+            }
+        }
+
+        Debug.Log("No order matched found to be destroyed in the UI");
     }
 
-    
+    public void UpdateOrderPos(List<UIOrder> uiOrders)
+    {
+        for (int i = 0; i < uiOrders.Count; i++)
+        {
+            if (i == uiOrders.Count - 1)
+            {
+                uiOrders[i].transform.localPosition = new Vector2(-100, -75);
+            }
+            else
+            {
+                // Calculate the distance horizontally by the amount of gameobjects in the list
+                float distanceFromTop = -250 * (uiOrders.Count - i - 1);
+                float horizontalPos = -100 - distanceFromTop;
+
+                // move down
+                uiOrders[i].transform.localPosition = new Vector3
+                    (horizontalPos,
+                    uiOrders[i].transform.localPosition.y, 0f);
+
+            }
+        }
+    }
 }

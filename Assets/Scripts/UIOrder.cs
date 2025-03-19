@@ -1,13 +1,17 @@
-using System.Collections;
+
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIOrder : MonoBehaviour
 {
-    private string customerName;
-    private string orderName;
-    private string orderNumber;
+    [SerializeField] private Text orderNumText;
+    [SerializeField] private Text nameText;
+    [SerializeField] private Text customerNameText;
 
-    public int OrderNumber { get; set; }
-    public string CustomerName { get; set; }
-    public string OrderName { get; set; }
+    public void Initiatialize(string customerName, string orderName, int orderNumber)
+    {
+        orderNumText.text = orderNumber.ToString();
+        nameText.text = orderName;
+        customerNameText.text = customerName;
+    }
 }

@@ -16,11 +16,15 @@ public class CoffeeBrewer : LockSpot
 
     private IEnumerator Brew()
     {
+        canRemove = false;
+
         notifyManager.Notify("Brewing...");
         yield return new WaitForSeconds(5);
         notifyManager.Notify("Coffee complete!");
 
         inventory.Add(coffeePrefab);
         mugs.RefreshMug(); // Allow mug to be spawned again
+
+        canRemove = true;
     } 
 }

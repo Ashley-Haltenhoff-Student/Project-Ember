@@ -3570,6 +3570,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1153964127
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1153964128}
+  - component: {fileID: 1153964129}
+  m_Layer: 0
+  m_Name: Order Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1153964128
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153964127}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2130333517}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1153964129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153964127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3f0b107f70fdf94fb5db73200c4e9f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UI: {fileID: 2011663721}
+  possibleOrders:
+  - {fileID: 2915514338478903547, guid: 3064c9e32c06f294dadf3913d470bdab, type: 3}
+  - {fileID: 2915514338478903547, guid: 3064c9e32c06f294dadf3913d470bdab, type: 3}
+  orders: []
+  uiOrders: []
 --- !u!1 &1161633596
 GameObject:
   m_ObjectHideFlags: 0
@@ -5519,13 +5569,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f39097ba007a96744b549305ab08830b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIManager: {fileID: 0}
+  UIManager: {fileID: 2011663721}
   tableManager: {fileID: 1782815476}
-  orderManager: {fileID: 0}
+  orderManager: {fileID: 1153964129}
   customers: []
   customerPrefab: {fileID: 1170556370480187291, guid: 02c8d719e7745b844af7a90a5ce9a928, type: 3}
   maxCustomers: 5
   secondsBetweenSpawn: 3
+  possibleNames:
+  - Bob
+  - Linda
 --- !u!1 &1672474683
 GameObject:
   m_ObjectHideFlags: 0
@@ -8378,14 +8431,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d9bbebe21fb6d04abbae859a3e08fbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  espressoWindow: {fileID: 0}
-  coffeeWindow: {fileID: 0}
+  espressoWindow: {fileID: 660638280}
+  coffeeWindow: {fileID: 2100730191}
   sinkWindow: {fileID: 0}
   gameplaySettings: {fileID: 0}
-  generalUI: {fileID: 0}
+  generalUI: {fileID: 1672474683}
   journal: {fileID: 0}
   pauseMenu: {fileID: 0}
-  orderUIPrefab: {fileID: 0}
+  orderUIPrefab: {fileID: 172399014659916420, guid: 1eed06efa3ba74840b8148b29b6a2c9d, type: 3}
+  orders: {fileID: 825422885}
 --- !u!1 &2083624960
 GameObject:
   m_ObjectHideFlags: 0
@@ -8702,6 +8756,7 @@ Transform:
   - {fileID: 694900006}
   - {fileID: 647262651}
   - {fileID: 1169426380}
+  - {fileID: 1153964128}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2145144390

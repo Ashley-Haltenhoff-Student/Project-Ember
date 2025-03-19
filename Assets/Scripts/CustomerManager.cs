@@ -14,6 +14,7 @@ public class CustomerManager : MonoBehaviour
     [SerializeField] private GameObject customerPrefab;
     [SerializeField] private int maxCustomers = 2;
     [SerializeField] private float secondsBetweenSpawn = 3f;
+    [SerializeField] private string[] possibleNames;
 
     private void Start()
     {
@@ -41,11 +42,22 @@ public class CustomerManager : MonoBehaviour
 
                 GameObject newCustomer = Instantiate(customerPrefab);
                 Customer customer = newCustomer.GetComponent<Customer>(); // access the script
+                
+                // Update values
+                customer.OrderManager = orderManager;
+                customer.Name = GenerateName();
 
-                customers.Add(customer); // Add to List
-                customer.Order = orderManager.GetNewOrder(); // Assign Order
+                customers.Add(customer); // Add to list
+
+                customer.SitAndOrderDrink(); // Wait until seated and order
+
             }
             yield return null;
         }
+    }
+
+    private string GenerateName()
+    {
+        return possibleNames[Random.Range(0, possibleNames.Length)];
     }
 }

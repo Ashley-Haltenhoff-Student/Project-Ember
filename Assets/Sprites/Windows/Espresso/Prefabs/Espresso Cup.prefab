@@ -97,4 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d411ce03766da4d4ab34a23f917f69e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: Espresso
+  orderNumber: 0
   spriteRenderer: {fileID: 8077180163233137124}

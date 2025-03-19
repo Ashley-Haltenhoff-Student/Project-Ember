@@ -51,15 +51,19 @@ public class InventoryManager : MonoBehaviour
     }
 
 
-    public void Remove(GameObject obj)
+    public void Remove(Order order)
     {
         // Loop through inventory to find the object to remove
         for (int i = 0; i < inventory.Length; i++)
         {
-            if (inventory[i] == obj )
+            if (inventory[i] == order )
             {
-                inventory[i] = null; // Remove gameobject
                 inventorySprites[i].sprite = null; // Update sprite
+                DestroyImmediate(inventory[i].gameObject, true); // Remove gameobject
+                inventory[i] = null;
+
+                UpdateInventory(); // Update object positions
+
                 return;
             }
         }
@@ -67,5 +71,36 @@ public class InventoryManager : MonoBehaviour
         Debug.Log("Error: Object to remove was not found");
     }
 
+    public bool Contains(Order order)
+    {
+        foreach (Order o in inventory)
+        {
+            if (o == order)
+            {
+                return true;
+            }
+        }
 
+        return false;
+    }
+
+    private void UpdateInventory()
+    {
+        for (int i=0; i < inventory.Length; ++i)
+        {
+            if (!inventory[i])
+            {
+                if (!inventory[i+1]) { return; } // There's none left to shift down
+
+                // Shift down order
+                inventory[i] = inventory[i + 1]; 
+                inventory[i] = null;
+
+                // Shift down order visually
+                inventorySprites[i] = inventorySprites[i + 1]; 
+                inventorySprites[i] = null;
+
+            }
+        }
+    }
 }
