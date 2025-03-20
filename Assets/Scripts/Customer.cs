@@ -1,38 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class Customer : MonoBehaviour
 {
     [SerializeField] private Vector3 spawnPoint = new Vector3 (-11.5f, -1f, 0);
-
-
-
     [SerializeField] private Vector3 sittingPosition = Vector3.zero;
     [SerializeField] private bool isSitting = false;
 
-
-    [SerializeField] private Player player;
-    [SerializeField] private TableManager tableManager;
-    [SerializeField] private OrderManager orderManager;
-    [SerializeField] private InventoryManager inventory;
-    [SerializeField] private NotifyManager notifyManager;
-    [SerializeField] private UIManager UI;
-
+    // Connections
+    private Player player;
+    private TableManager tableManager;
+    private OrderManager orderManager;
+    private InventoryManager inventory;
+    private NotifyManager notifyManager;
     private NavMeshAgent agent;
+
+    public GlobalEvents events;
 
     [SerializeField] private Order order;
     [SerializeField] new private string name;
+    [SerializeField] private bool isDrinking = false;
+    [SerializeField] private bool isGone = false;
     
 
     private void Start()
     {
+
         // Get Connections
         player = FindFirstObjectByType<Player>();
         tableManager = FindFirstObjectByType<TableManager>();
         agent = GetComponent<NavMeshAgent>();
-        UI = FindAnyObjectByType<UIManager>();  
         notifyManager = FindAnyObjectByType<NotifyManager>();
         inventory = FindFirstObjectByType<InventoryManager>();
 
@@ -41,11 +42,12 @@ public class Customer : MonoBehaviour
 
     private void Update()
     {
+        // Validating if the player is at their table or not
         if (sittingPosition != Vector3.zero)
         {
             if (Vector2.Distance(sittingPosition, transform.position) > 0.5f)
             {
-                agent.SetDestination(sittingPosition);
+                agent.SetDestination(sittingPosition); // continue walking
             }
             else
             {
@@ -54,13 +56,16 @@ public class Customer : MonoBehaviour
             }
         }
 
+        // If player is near 
         if (Vector2.Distance(player.transform.position, transform.position) < 2f)
         {
-            if (inventory.Contains(order))
+            // Validing in order to give them their drink
+            if (inventory.Contains(order) && !isDrinking)
             {
-                inventory.Remove(order);
+                inventory.Remove(order); // Update Inventory
 
-                notifyManager.Notify($"{name} got their order!");
+                StartCoroutine(DrinkAndLeave());
+                isDrinking = true;
             }
         }
     }
@@ -106,10 +111,6 @@ public class Customer : MonoBehaviour
 
     private IEnumerator OrderDrink()
     {
-        while (!isSitting)
-        {
-            yield return null;
-        }
 
         // Wait for customer to sit down
         // Develop decision time here
@@ -118,18 +119,27 @@ public class Customer : MonoBehaviour
             yield return null;
         }
 
-        // Add to List
-        
         order = orderManager.GetNewOrder(name); // Assign Order
+    }
 
-        if (order != null)
+    private IEnumerator DrinkAndLeave()
+    {
+        notifyManager.Notify($"{name} got their order!");
+
+        yield return new WaitForSeconds(3);
+
+        notifyManager.Notify($"{name} is leaving...");
+
+        // Start leaving
+        while (Vector2.Distance(spawnPoint, transform.position) > 0.5f)
         {
-            Debug.Log($"customer {name} recieved the {order} order");
+            agent.SetDestination(spawnPoint); // Continue walking
+            yield return null;
         }
-        else
-        {
-            Debug.Log($"Customer {name} did not recieve the order correctly");
-        }
+
+        // Customer is now gone
+        isGone = true;
+        events.TriggerEvent(events.CustomerLeft);
     }
 
     public Order Order 
@@ -140,7 +150,17 @@ public class Customer : MonoBehaviour
     public string Name
     {
         get { return name; }
-        set { name = value; }
+        set
+        {
+            if (name != null)
+            {
+                name = value;
+            }
+            else
+            {
+                name = "mr. no name";
+            }
+        }
     }
     public bool IsSitting
     {
@@ -150,5 +170,9 @@ public class Customer : MonoBehaviour
     {
         get { return orderManager; }
         set { orderManager = value; }
+    }
+    public bool IsGone
+    {
+        get { return isGone; }
     }
 }

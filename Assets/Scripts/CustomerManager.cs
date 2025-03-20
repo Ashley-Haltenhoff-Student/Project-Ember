@@ -1,13 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CustomerManager : MonoBehaviour
 {
+    
+
     [Header("Connections")]
     [SerializeField] private UIManager UIManager;
     [SerializeField] private TableManager tableManager;
     [SerializeField] private OrderManager orderManager;
+    [SerializeField] private GlobalEvents events;
 
     [Header("Customer Data")]
     [SerializeField] private List<Customer> customers;
@@ -18,8 +22,7 @@ public class CustomerManager : MonoBehaviour
 
     private void Start()
     {
-        GameObject newCustomer = Instantiate(customerPrefab);
-        customers.Add(newCustomer.GetComponent<Customer>());
+        events.CustomerLeft.AddListener(DestroyCustomer);
 
         StartCoroutine(Spawning());
     }
@@ -36,7 +39,7 @@ public class CustomerManager : MonoBehaviour
             }
 
             // If there are less than the max amount of customers
-            if (customers.Count < maxCustomers)
+            if (customers.Count <= maxCustomers)
             {
                 yield return new WaitForSeconds(secondsBetweenSpawn);
 
@@ -46,12 +49,14 @@ public class CustomerManager : MonoBehaviour
                 // Update values
                 customer.OrderManager = orderManager;
                 customer.Name = GenerateName();
+                customer.events = events; // Unity Events
 
                 customers.Add(customer); // Add to list
 
                 customer.SitAndOrderDrink(); // Wait until seated and order
 
             }
+            else { spawning = false; }
             yield return null;
         }
     }
@@ -59,5 +64,20 @@ public class CustomerManager : MonoBehaviour
     private string GenerateName()
     {
         return possibleNames[Random.Range(0, possibleNames.Length)];
+    }
+
+    private void DestroyCustomer()
+    {
+        foreach (Customer c in customers)
+        {
+            if (c.IsGone)
+            {
+                customers.Remove(c);
+                Destroy(c.gameObject);
+                break;
+            }
+        }
+
+        StartCoroutine(Spawning());
     }
 }

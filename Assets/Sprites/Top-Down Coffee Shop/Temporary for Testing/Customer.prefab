@@ -102,12 +102,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1bee3879a702b4daae77e5830b8b3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPoint: {x: -7.5, y: -2.5, z: 0}
+  spawnPoint: {x: -11, y: -1, z: 0}
   sittingPosition: {x: 0, y: 0, z: 0}
   isSitting: 0
-  player: {fileID: 0}
-  tableManager: {fileID: 0}
-  agent: {fileID: 0}
+  order: {fileID: 0}
+  name: 
+  isDrinking: 0
+  isGone: 0
 --- !u!195 &-4843330929631584905
 NavMeshAgent:
   m_ObjectHideFlags: 0

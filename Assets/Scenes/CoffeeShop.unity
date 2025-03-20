@@ -469,7 +469,7 @@ PrefabInstance:
     - target: {fileID: 9179059739050820863, guid: 25ccc434138aca247a26e9eee89f7a61, type: 3}
       propertyPath: window
       value: 
-      objectReference: {fileID: 2100730191}
+      objectReference: {fileID: 1878415326}
     - target: {fileID: 9179059739050820863, guid: 25ccc434138aca247a26e9eee89f7a61, type: 3}
       propertyPath: maxDistance
       value: 1.45
@@ -507,12 +507,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 334128572}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.33321, z: 0}
-  m_LocalScale: {x: 1, y: 0.33359408, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -3.3321, z: 0}
+  m_LocalScale: {x: 17, y: 3.3359408, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2100730192}
+  m_Father: {fileID: 1878415327}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &334128574
 SpriteRenderer:
@@ -952,12 +952,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 364654226}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.35, y: -0.1, z: 0}
-  m_LocalScale: {x: 0.13690624, y: 0.22229862, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.95, y: -1, z: 0}
+  m_LocalScale: {x: 2.327406, y: 2.2229862, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2100730192}
+  m_Father: {fileID: 1878415327}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &364654228
 MonoBehaviour:
@@ -976,7 +976,7 @@ MonoBehaviour:
   - {fileID: 8643657688138174637}
   - {fileID: 1876387717}
   mugPrefab: {fileID: 7935279188591405368, guid: 3064c9e32c06f294dadf3913d470bdab, type: 3}
-  mugSpawnPoint: {x: 6.5, y: -3}
+  mugSpawnPoint: {x: 6.8, y: -2.5}
 --- !u!212 &364654229
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1684,6 +1684,53 @@ MonoBehaviour:
   m_CropFrameX: 0
   m_CropFrameY: 1
   m_StretchFill: 0
+--- !u!1 &550449839
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 550449841}
+  - component: {fileID: 550449840}
+  m_Layer: 0
+  m_Name: Global Events
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &550449840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550449839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38f4057a4f8849a4c9a1aca2fb94f473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customerLeft:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!4 &550449841
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550449839}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &598375775
 GameObject:
   m_ObjectHideFlags: 0
@@ -1921,7 +1968,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a1162ab91a22e34e919b7588bf3225c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 0}
+  inventory: {fileID: 1169426381}
   espressoPrefab: {fileID: 4533829453735382833, guid: bca997aa9a685d347bf31163df6fc9c1, type: 3}
   canBrew: 0
   canGrind: 0
@@ -3011,7 +3058,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 660638281}
-  - {fileID: 2100730192}
+  - {fileID: 1878415327}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &893869153
@@ -3617,7 +3664,7 @@ MonoBehaviour:
   UI: {fileID: 2011663721}
   possibleOrders:
   - {fileID: 2915514338478903547, guid: 3064c9e32c06f294dadf3913d470bdab, type: 3}
-  - {fileID: 2915514338478903547, guid: 3064c9e32c06f294dadf3913d470bdab, type: 3}
+  - {fileID: 1849531208676040402, guid: bca997aa9a685d347bf31163df6fc9c1, type: 3}
   orders: []
   uiOrders: []
 --- !u!1 &1161633596
@@ -3709,6 +3756,7 @@ MonoBehaviour:
   - {fileID: 779216720}
   - {fileID: 893869156}
   - {fileID: 2002222884}
+  defaultSprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
   notifyManager: {fileID: 694900007}
 --- !u!1 &1244798183
 GameObject:
@@ -4100,10 +4148,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0294118, y: 1.0500001, z: 1}
+  m_LocalScale: {x: 17.5, y: 10.500001, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2100730192}
+  m_Father: {fileID: 1878415327}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1372423940
 SpriteRenderer:
@@ -5572,9 +5620,10 @@ MonoBehaviour:
   UIManager: {fileID: 2011663721}
   tableManager: {fileID: 1782815476}
   orderManager: {fileID: 1153964129}
+  events: {fileID: 550449840}
   customers: []
   customerPrefab: {fileID: 1170556370480187291, guid: 02c8d719e7745b844af7a90a5ce9a928, type: 3}
-  maxCustomers: 5
+  maxCustomers: 3
   secondsBetweenSpawn: 3
   possibleNames:
   - Bob
@@ -6395,6 +6444,42 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1878415326
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1878415327}
+  m_Layer: 0
+  m_Name: Coffee Machine Window
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1878415327
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878415326}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2135773767920345009}
+  - {fileID: 364654227}
+  - {fileID: 334128573}
+  - {fileID: 1372423939}
+  - {fileID: 2100730192}
+  m_Father: {fileID: 876771544}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1950456085
 GameObject:
   m_ObjectHideFlags: 0
@@ -8432,7 +8517,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   espressoWindow: {fileID: 660638280}
-  coffeeWindow: {fileID: 2100730191}
+  coffeeWindow: {fileID: 1878415326}
   sinkWindow: {fileID: 0}
   gameplaySettings: {fileID: 0}
   generalUI: {fileID: 1672474683}
@@ -8569,12 +8654,12 @@ GameObject:
   - component: {fileID: 2100730192}
   - component: {fileID: 2100730193}
   m_Layer: 0
-  m_Name: Coffee Machine Window
+  m_Name: Coffee Machine Window Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2100730192
 Transform:
   m_ObjectHideFlags: 0
@@ -8587,12 +8672,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 17, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 334128573}
-  - {fileID: 2135773767920345009}
-  - {fileID: 1372423939}
-  - {fileID: 364654227}
-  m_Father: {fileID: 876771544}
+  m_Children: []
+  m_Father: {fileID: 1878415327}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2100730193
 SpriteRenderer:
@@ -9057,8 +9138,8 @@ Transform:
   m_GameObject: {fileID: 8779225633125458479}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.014705882, y: 0, z: 0}
-  m_LocalScale: {x: 0.05882353, y: 0.1, z: 1}
+  m_LocalPosition: {x: 0.25, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1105599439778559000}
@@ -9066,7 +9147,7 @@ Transform:
   - {fileID: 5346443351790879979}
   - {fileID: 7485166410101034170}
   - {fileID: 1876387716}
-  m_Father: {fileID: 2100730192}
+  m_Father: {fileID: 1878415327}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2979105937285231403
 Transform:
@@ -9774,6 +9855,7 @@ SceneRoots:
   - {fileID: 1672474687}
   - {fileID: 693781157}
   - {fileID: 1119977187}
+  - {fileID: 550449841}
   - {fileID: 1411398299}
   - {fileID: 2130333517}
   - {fileID: 1960724299}

@@ -7,6 +7,7 @@ public class InventoryManager : MonoBehaviour
 {
     [SerializeField] private Order[] inventory = new Order[5];
     [SerializeField] private Image[] inventorySprites = new Image[5];
+    [SerializeField] private Sprite defaultSprite;
 
     [SerializeField] private NotifyManager notifyManager;
 
@@ -58,8 +59,8 @@ public class InventoryManager : MonoBehaviour
         {
             if (inventory[i] == order )
             {
-                inventorySprites[i].sprite = null; // Update sprite
-                DestroyImmediate(inventory[i].gameObject, true); // Remove gameobject
+                inventorySprites[i].sprite = defaultSprite; // Update sprite
+
                 inventory[i] = null;
 
                 UpdateInventory(); // Update object positions

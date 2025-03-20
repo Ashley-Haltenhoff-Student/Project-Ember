@@ -21,7 +21,8 @@ public class Mugs : MonoBehaviour
     {
         if (!mugSpawned)
         {
-            GameObject mug = Instantiate(mugPrefab, mugSpawnPoint, Quaternion.identity);
+            GameObject mug = Instantiate(mugPrefab, gameObject.transform.parent);
+            mug.transform.localPosition = mugSpawnPoint;
             currentMug = mug;
             mug.GetComponent<Mug>().LockSpots = mugLockSpots; // assign locks spots
 
