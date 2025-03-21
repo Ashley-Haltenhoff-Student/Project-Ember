@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,6 +23,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject orders;
 
 
+
     public UIOrder AddOrder(Order order, string customerName, List<UIOrder> uiOrders)
     {
         GameObject obj = Instantiate(orderUIPrefab, this.orders.transform);
@@ -29,7 +31,7 @@ public class UIManager : MonoBehaviour
         UIOrder uiOrder = obj.GetComponent<UIOrder>();
         uiOrder.Initiatialize(customerName, order.Name, order.OrderNumber);
 
-        UpdateOrderPos(uiOrders);
+        UpdateOrderPos();
 
         return uiOrder;
     }
@@ -41,6 +43,7 @@ public class UIManager : MonoBehaviour
             if (o ==  order)
             {
                 Destroy(o);
+                UpdateOrderPos();
                 return;
             }
         }
@@ -48,26 +51,31 @@ public class UIManager : MonoBehaviour
         Debug.Log("No order matched found to be destroyed in the UI");
     }
 
-    public void UpdateOrderPos(List<UIOrder> uiOrders)
+
+    public void UpdateOrderPos()
     {
-        for (int i = 0; i < uiOrders.Count; i++)
+        UIOrder[] uiOrders = orders.GetComponentsInChildren<UIOrder>();
+
+        Vector2 startPosition = new Vector2(1795, 980);
+
+        for (int i = 0; i < uiOrders.Length; i++)
         {
-            if (i == uiOrders.Count - 1)
+            // If is on the first order in the array
+            if (i == 0)
             {
-                uiOrders[i].transform.localPosition = new Vector2(-100, -75);
+                uiOrders[i].gameObject.GetComponent<RectTransform>().position= startPosition;
+                Debug.Log($"customer order {i + 1} is at local position: {startPosition}");
             }
             else
             {
-                // Calculate the distance horizontally by the amount of gameobjects in the list
-                float distanceFromTop = -250 * (uiOrders.Count - i - 1);
-                float horizontalPos = -100 - distanceFromTop;
+                // Calculate the distance horizontally by the amount of gameobjects in the array
+                float horizontalPos = startPosition.x + (-250 * i);
+                Vector2 newPos = new Vector2(horizontalPos, 980);
 
-                // move down
-                uiOrders[i].transform.localPosition = new Vector3
-                    (horizontalPos,
-                    uiOrders[i].transform.localPosition.y, 0f);
-
+                uiOrders[i].gameObject.GetComponent<RectTransform>().position = newPos;
+                Debug.Log($"customer order {i + 1} is at local position: {newPos}");
             }
+
         }
     }
 }

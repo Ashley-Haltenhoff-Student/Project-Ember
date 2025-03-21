@@ -23,7 +23,10 @@ public class CustomerManager : MonoBehaviour
     private void Start()
     {
         events.CustomerLeft.AddListener(DestroyCustomer);
+    }
 
+    public void StartSpawning()
+    {
         StartCoroutine(Spawning());
     }
 

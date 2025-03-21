@@ -25,7 +25,10 @@ public class Appliance : MonoBehaviour
         playerAgent.SetDestination(transform.position);
         Vector3 destination = playerAgent.destination;
 
-        if (window) { player.OpenWindow(this, destination, maxDistance); }
+        if (window) 
+        { 
+            player.OpenWindow(this, destination, maxDistance);
+        }
     }
 
     public GameObject ApplianceWindow { get { return window; }}

@@ -57,7 +57,7 @@ public class Customer : MonoBehaviour
         }
 
         // If player is near 
-        if (Vector2.Distance(player.transform.position, transform.position) < 2f)
+        if (Vector2.Distance(player.transform.position, transform.position) < 2f && isSitting)
         {
             // Validing in order to give them their drink
             if (inventory.Contains(order) && !isDrinking)

@@ -49,14 +49,15 @@ public class NotifyManager : MonoBehaviour
             }
             else
             {
-            // Calculate the distance vertically by the amount of gameobjects in the list
+                // Calculate the distance vertically by the amount of gameobjects in the list
                 float distanceFromTop = distance * (notifications.Count - i - 1);
                 float verticalPos = topNotifPos.y - distanceFromTop;
-
-            // move down
+    
+                // move down
                 notifications[i].transform.localPosition = new Vector3 
                     (notifications[i].transform.localPosition.x, 
                     verticalPos, 0f);
+
 
             }
         }

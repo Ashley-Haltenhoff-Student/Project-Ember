@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
 
         // Wait for escape to be pressed to hide the appliance window
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Escape));
+        
         appliance.ApplianceWindow.SetActive(false);
     }
 }

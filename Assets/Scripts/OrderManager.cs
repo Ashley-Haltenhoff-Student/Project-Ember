@@ -11,7 +11,7 @@ public class OrderManager : MonoBehaviour
     [SerializeField] private List<Order> orders;
     [SerializeField] private List<UIOrder> uiOrders;
 
-    private int lastOrderNum = 0;
+    private int lastOrderNum = 1;
 
     public Order GetNewOrder(string customerName)
     {
