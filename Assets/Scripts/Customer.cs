@@ -21,6 +21,8 @@ public class Customer : MonoBehaviour
 
     public GlobalEvents events;
 
+    private Table chosenTable;
+
     [SerializeField] private Order order;
     [SerializeField] new private string name;
     [SerializeField] private bool isDrinking = false;
@@ -89,7 +91,7 @@ public class Customer : MonoBehaviour
     {
         // Find table and update occupiancy 
         List<Table> tables = tableManager.OpenTables;
-        Table chosenTable = tables[Random.Range(0, tables.Count)];
+        chosenTable = tables[Random.Range(0, tables.Count)];
         tableManager.TableIsOccupied(chosenTable);
 
         // Find seat
@@ -129,6 +131,7 @@ public class Customer : MonoBehaviour
         yield return new WaitForSeconds(3);
 
         notifyManager.Notify($"{name} is leaving...");
+        tableManager.TableIsOpen(chosenTable);
 
         // Start leaving
         while (Vector2.Distance(spawnPoint, transform.position) > 0.5f)

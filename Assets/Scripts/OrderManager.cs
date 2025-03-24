@@ -31,4 +31,22 @@ public class OrderManager : MonoBehaviour
         uiOrders.Add(uiOrder);
     }
 
+    public void UpdateOrders()
+    {
+        foreach (UIOrder order in uiOrders)
+        {
+            if (!order)
+            {
+                uiOrders.Remove(order);
+            }
+        }
+
+        foreach (Order order in orders)
+        {
+            if (!order)
+            {
+                orders.Remove(order);
+            }
+        }
+    }
 }

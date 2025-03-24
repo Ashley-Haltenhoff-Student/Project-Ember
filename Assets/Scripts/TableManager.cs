@@ -5,8 +5,8 @@ using UnityEngine;
 public class TableManager : MonoBehaviour
 {
     [SerializeField] private Table[] tables;
-    [SerializeField] private List<Table> openTables;
-    [SerializeField] private List<Table> busyTables;
+    [SerializeField] private List<Table> openTables = new List<Table>();
+    [SerializeField] private List<Table> busyTables = new List<Table>();
 
 
     private void Start()
@@ -30,6 +30,15 @@ public class TableManager : MonoBehaviour
         }
 
         RefreshTables(); // Refresh lists
+    }
+
+    public void TableIsOpen(Table table)
+    {
+        if (busyTables.Contains(table))
+        {
+            busyTables.Remove(table);
+            openTables.Add(table);
+        }
     }
 
     

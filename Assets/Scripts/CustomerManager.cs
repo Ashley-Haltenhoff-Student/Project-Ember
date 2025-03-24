@@ -8,7 +8,7 @@ public class CustomerManager : MonoBehaviour
     
 
     [Header("Connections")]
-    [SerializeField] private UIManager UIManager;
+    [SerializeField] private UIManager UI;
     [SerializeField] private TableManager tableManager;
     [SerializeField] private OrderManager orderManager;
     [SerializeField] private GlobalEvents events;
@@ -75,6 +75,8 @@ public class CustomerManager : MonoBehaviour
         {
             if (c.IsGone)
             {
+                UI.RemoveOrder(c.Order);
+                //orderManager.UpdateOrders();
                 customers.Remove(c);
                 Destroy(c.gameObject);
                 break;

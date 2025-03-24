@@ -36,13 +36,15 @@ public class UIManager : MonoBehaviour
         return uiOrder;
     }
 
-    public void RemoveOrder(UIOrder order)
+    public void RemoveOrder(Order order)
     {
         foreach (UIOrder o in orders.GetComponentsInChildren<UIOrder>())
         {
-            if (o ==  order)
+            if (o.orderNum == order.OrderNumber)
             {
-                Destroy(o);
+                Debug.Log($"order number {order.OrderNumber} and ui order number {o.orderNum}");
+
+                Destroy(o.gameObject);
                 UpdateOrderPos();
                 return;
             }
@@ -63,8 +65,7 @@ public class UIManager : MonoBehaviour
             // If is on the first order in the array
             if (i == 0)
             {
-                uiOrders[i].gameObject.GetComponent<RectTransform>().position= startPosition;
-                Debug.Log($"customer order {i + 1} is at local position: {startPosition}");
+                uiOrders[i].gameObject.GetComponent<RectTransform>().position = startPosition;
             }
             else
             {
@@ -73,7 +74,6 @@ public class UIManager : MonoBehaviour
                 Vector2 newPos = new Vector2(horizontalPos, 980);
 
                 uiOrders[i].gameObject.GetComponent<RectTransform>().position = newPos;
-                Debug.Log($"customer order {i + 1} is at local position: {newPos}");
             }
 
         }
