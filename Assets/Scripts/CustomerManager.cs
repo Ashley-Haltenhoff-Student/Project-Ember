@@ -8,9 +8,7 @@ public class CustomerManager : MonoBehaviour
     
 
     [Header("Connections")]
-    [SerializeField] private UIManager UI;
     [SerializeField] private TableManager tableManager;
-    [SerializeField] private OrderManager orderManager;
     [SerializeField] private GlobalEvents events;
 
     [Header("Customer Data")]
@@ -50,7 +48,6 @@ public class CustomerManager : MonoBehaviour
                 Customer customer = newCustomer.GetComponent<Customer>(); // access the script
                 
                 // Update values
-                customer.OrderManager = orderManager;
                 customer.Name = GenerateName();
                 customer.events = events; // Unity Events
 
@@ -75,8 +72,6 @@ public class CustomerManager : MonoBehaviour
         {
             if (c.IsGone)
             {
-                UI.RemoveOrder(c.Order);
-                //orderManager.UpdateOrders();
                 customers.Remove(c);
                 Destroy(c.gameObject);
                 break;

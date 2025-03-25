@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class UIOrder : MonoBehaviour
 {
     public int orderNum;
+    public string orderName;
 
     [SerializeField] private Text orderNumText;
     [SerializeField] private Text nameText;
@@ -14,7 +15,10 @@ public class UIOrder : MonoBehaviour
     {
         orderNumText.text = orderNumber.ToString();
         orderNum = orderNumber;
+
+        this.orderName = orderName;
         nameText.text = orderName;
+
         customerNameText.text = customerName;
     }
 }

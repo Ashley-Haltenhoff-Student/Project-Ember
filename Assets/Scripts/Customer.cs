@@ -18,6 +18,7 @@ public class Customer : MonoBehaviour
     private InventoryManager inventory;
     private NotifyManager notifyManager;
     private NavMeshAgent agent;
+    private UIManager UI;
 
     public GlobalEvents events;
 
@@ -38,6 +39,8 @@ public class Customer : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         notifyManager = FindAnyObjectByType<NotifyManager>();
         inventory = FindFirstObjectByType<InventoryManager>();
+        UI = FindFirstObjectByType<UIManager>();
+        orderManager = FindFirstObjectByType<OrderManager>();
 
         Spawn();
     }
@@ -65,6 +68,7 @@ public class Customer : MonoBehaviour
             if (inventory.Contains(order) && !isDrinking)
             {
                 inventory.Remove(order); // Update Inventory
+                UI.RemoveOrder(order); // Update UI
 
                 StartCoroutine(DrinkAndLeave());
                 isDrinking = true;
@@ -168,11 +172,6 @@ public class Customer : MonoBehaviour
     public bool IsSitting
     {
         get { return IsSitting; }
-    }
-    public OrderManager OrderManager
-    {
-        get { return orderManager; }
-        set { orderManager = value; }
     }
     public bool IsGone
     {
