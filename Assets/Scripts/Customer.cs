@@ -68,7 +68,7 @@ public class Customer : MonoBehaviour
             if (inventory.Contains(order) && !isDrinking)
             {
                 inventory.Remove(order); // Update Inventory
-                UI.RemoveOrder(order); // Update UI
+                UI.RemoveOrder(order.OrderNumber); // Update UI
 
                 StartCoroutine(DrinkAndLeave());
                 isDrinking = true;

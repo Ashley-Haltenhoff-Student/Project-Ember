@@ -27,7 +27,7 @@ public class OrderManager : MonoBehaviour
     {
         // Add to Lists
         orders.Add(order);
-        UIOrder uiOrder = UI.AddOrder(order, customerName, uiOrders); // Update UI
+        UIOrder uiOrder = UI.AddOrder(order, customerName); // Update UI
         uiOrders.Add(uiOrder);
     }
 
