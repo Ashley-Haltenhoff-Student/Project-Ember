@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
     [Header("Orders")]
     [SerializeField] private GameObject orderUIPrefab;
     [SerializeField] private GameObject orders;
+    [SerializeField] private GameObject customerHoverObject;
 
     private Dictionary<int, GameObject> uiOrderObjs = new Dictionary<int, GameObject>();
 
@@ -82,4 +83,17 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void OnCustomerHover(string customerName, string orderName, Vector2 cursorPos)
+    {
+        customerHoverObject.transform.position = cursorPos;
+        customerHoverObject.GetComponentInChildren<Text>().text = $"{customerName} wants a(n) {orderName}";
+
+        customerHoverObject.SetActive(true);
+    }
+
+    // When the mouse isn't hovering over the customer anymore
+    public void OnCustomerCursorLeave()
+    {
+        customerHoverObject.SetActive(false);
+    }
 }

@@ -84,6 +84,17 @@ public class Customer : MonoBehaviour
             player.GetComponent<NavMeshAgent>().SetDestination(gameObject.transform.position);
         }
     }
+
+    private void OnMouseOver()
+    {
+        UI.OnCustomerHover(name, order.Name, Input.mousePosition);
+    }
+
+    private void OnMouseExit()
+    {
+        UI.OnCustomerCursorLeave();
+    }
+
     private void Spawn()
     {
         gameObject.transform.position = spawnPoint;
