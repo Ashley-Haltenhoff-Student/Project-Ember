@@ -62,9 +62,8 @@ public class InventoryManager : MonoBehaviour
                 inventorySprites[i].sprite = defaultSprite; // Update sprite
 
                 inventory[i] = null;
-
-                UpdateInventory(); // Update object positions
-
+                StartCoroutine(
+                                UpdateInventory());
                 return;
             }
         }
@@ -85,21 +84,24 @@ public class InventoryManager : MonoBehaviour
         return false;
     }
 
-    private void UpdateInventory()
+    private IEnumerator UpdateInventory()
     {
-        for (int i=0; i < inventory.Length; ++i)
+        for (int i = 0; i < inventory.Length; ++i)
         {
             if (!inventory[i])
             {
-                if (!inventory[i+1]) { return; } // There's none left to shift down
+                if (!inventory[i+1]) { yield break; } // There's none left to shift down
+
+                yield return new WaitForSeconds(1);
 
                 // Shift down order
                 inventory[i] = inventory[i + 1]; 
-                inventory[i] = null;
+                inventory[i + 1] = null;
+                
 
                 // Shift down order visually
-                inventorySprites[i] = inventorySprites[i + 1]; 
-                inventorySprites[i] = null;
+                inventorySprites[i].sprite = inventorySprites[i + 1].sprite;
+                inventorySprites[i + 1].sprite = defaultSprite;
 
             }
         }

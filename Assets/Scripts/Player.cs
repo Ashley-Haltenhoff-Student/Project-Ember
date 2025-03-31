@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class Player : MonoBehaviour
 {
     private NavMeshAgent agent;
+    public bool canMove = true;
 
     private void Start()
     {
@@ -27,6 +28,7 @@ public class Player : MonoBehaviour
             if (Vector2.Distance(transform.position, agent.destination) <= maxDistance)
             {
                 appliance.Show(); // open appliance window
+                canMove = false;
                 break;
             }
             yield return null;
@@ -36,5 +38,6 @@ public class Player : MonoBehaviour
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Escape));
         
         appliance.Hide();
+        canMove = true;
     }
 }

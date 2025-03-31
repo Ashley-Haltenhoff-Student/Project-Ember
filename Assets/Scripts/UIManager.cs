@@ -85,8 +85,8 @@ public class UIManager : MonoBehaviour
 
     public void OnCustomerHover(string customerName, string orderName, Vector2 cursorPos)
     {
-        customerHoverObject.transform.position = cursorPos;
-        customerHoverObject.GetComponentInChildren<Text>().text = $"{customerName} wants a(n) {orderName}";
+        customerHoverObject.transform.position = new Vector2(cursorPos.x + 50, cursorPos.y + 50);
+        customerHoverObject.GetComponentInChildren<Text>().text = $"{customerName} wants {orderName}";
 
         customerHoverObject.SetActive(true);
     }

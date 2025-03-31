@@ -12,8 +12,6 @@ public class Appliance : MonoBehaviour
     [SerializeField] private float maxDistance;
     [SerializeField] private Vector2 hiddenPos = new(-30,0); // position when it's hidden from view
 
-
-
     private void Start()
     {
         window.transform.position = hiddenPos; // hide from sight

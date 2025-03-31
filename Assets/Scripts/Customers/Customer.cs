@@ -7,9 +7,12 @@ using UnityEngine.Events;
 
 public class Customer : MonoBehaviour
 {
+
     [SerializeField] private Vector3 spawnPoint = new Vector3 (-11.5f, -1f, 0);
     [SerializeField] private Vector3 sittingPosition = Vector3.zero;
-    [SerializeField] private bool isSitting = false;
+    [SerializeField] private Order order;
+    [SerializeField] new private string name;
+    [SerializeField] private Reaction reaction;
 
     // Connections
     private Player player;
@@ -17,15 +20,14 @@ public class Customer : MonoBehaviour
     private OrderManager orderManager;
     private InventoryManager inventory;
     private NotifyManager notifyManager;
-    private NavMeshAgent agent;
     private UIManager UI;
 
+    private NavMeshAgent agent;
+    private Table chosenTable;
     public GlobalEvents events;
 
-    private Table chosenTable;
-
-    [SerializeField] private Order order;
-    [SerializeField] new private string name;
+    [Header("Booleans")]
+    [SerializeField] private bool isSitting = false;
     [SerializeField] private bool isDrinking = false;
     [SerializeField] private bool isGone = false;
     
@@ -41,6 +43,9 @@ public class Customer : MonoBehaviour
         inventory = FindFirstObjectByType<InventoryManager>();
         UI = FindFirstObjectByType<UIManager>();
         orderManager = FindFirstObjectByType<OrderManager>();
+
+        
+        reaction = GetComponentInChildren<Reaction>();
 
         Spawn();
     }
@@ -70,6 +75,8 @@ public class Customer : MonoBehaviour
                 inventory.Remove(order); // Update Inventory
                 UI.RemoveOrder(order.OrderNumber); // Update UI
 
+                reaction.React("happy");
+
                 StartCoroutine(DrinkAndLeave());
                 isDrinking = true;
             }
@@ -79,7 +86,7 @@ public class Customer : MonoBehaviour
     private void OnMouseDown()
     {
         // Set the player's position to the customer
-        if (isSitting)
+        if (isSitting && player.canMove)
         {
             player.GetComponent<NavMeshAgent>().SetDestination(gameObject.transform.position);
         }
@@ -87,7 +94,12 @@ public class Customer : MonoBehaviour
 
     private void OnMouseOver()
     {
-        UI.OnCustomerHover(name, order.Name, Input.mousePosition);
+        // The only time the player can't move is if a window is open
+        if (order && player.canMove)
+        {
+            UI.OnCustomerHover(name, order.Name, Input.mousePosition);
+
+        }
     }
 
     private void OnMouseExit()
@@ -160,11 +172,9 @@ public class Customer : MonoBehaviour
         events.TriggerEvent(events.CustomerLeft);
     }
 
-    public Order Order 
-    { 
-        get { return order; } 
-        set { order = value; } 
-    }
+
+
+    // functions designed for easier and limited access to certain variables
     public string Name
     {
         get { return name; }
