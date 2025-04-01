@@ -12,8 +12,7 @@ public class UIManager : MonoBehaviour
     [Header("Other")]
     [SerializeField] private GameObject gameplaySettings;
     [SerializeField] private GameObject generalUI;
-    [SerializeField] private GameObject journal;
-    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject eToInteract;
 
     [Header("Orders")]
     [SerializeField] private GameObject orderUIPrefab;
@@ -31,9 +30,8 @@ public class UIManager : MonoBehaviour
 
         UIOrder uiOrder = obj.GetComponent<UIOrder>();
         uiOrder.Initiatialize(customerName, order.Name, order.OrderNumber); // set values
-
-        UpdateOrderPos();
-
+        StartCoroutine(
+                UpdateOrderPos());
         return uiOrder;
     }
 
@@ -52,16 +50,16 @@ public class UIManager : MonoBehaviour
 
             // Wait until the object is truly destroyed
             yield return new WaitUntil(() =>  !uiOrderObjs.ContainsKey(orderNum));
-
-            UpdateOrderPos(); // Update positions
-            
+            StartCoroutine(
+                        UpdateOrderPos());
         }
 
     }
 
     // Method to update positions of the UI orders
-    public void UpdateOrderPos()
+    public IEnumerator UpdateOrderPos()
     { 
+        yield return new WaitForSeconds(1);
 
         Vector2 startPosition = new Vector2(1795, 980);
 
@@ -96,4 +94,12 @@ public class UIManager : MonoBehaviour
     {
         customerHoverObject.SetActive(false);
     }
+
+    public void EToInteract(Vector3 position)
+    {
+        eToInteract.transform.position = Camera.main.WorldToScreenPoint(position);
+        eToInteract.SetActive(true);
+    }
+
+    public void HideEToInteract() { eToInteract.SetActive(false); }
 }

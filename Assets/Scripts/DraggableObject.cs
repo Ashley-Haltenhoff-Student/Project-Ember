@@ -17,7 +17,7 @@ public class DraggableObject : MonoBehaviour
 
     protected void Start()
     {
-        returnPoint = transform.position;
+        returnPoint = transform.localPosition;
     }
 
     protected void OnMouseDrag()
@@ -72,4 +72,7 @@ public class DraggableObject : MonoBehaviour
 
         if (!isLocked) { transform.position = returnPoint; }
     }
+
+
+    public void ResetPosition() { gameObject.transform.localPosition = returnPoint; }
 }

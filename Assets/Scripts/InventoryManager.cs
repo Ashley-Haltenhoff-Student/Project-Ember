@@ -41,7 +41,6 @@ public class InventoryManager : MonoBehaviour
 
                 notifyManager.Notify(obj.name + " added to inventory!");
 
-                Debug.Log("Added object at inventory space " + i);
                 return;
             }
         }

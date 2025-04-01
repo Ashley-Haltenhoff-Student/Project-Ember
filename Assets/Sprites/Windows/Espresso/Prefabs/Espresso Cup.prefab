@@ -98,5 +98,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Espresso
-  orderNumber: 0
+  orderNumber: 1
   spriteRenderer: {fileID: 8077180163233137124}

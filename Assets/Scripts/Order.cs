@@ -12,10 +12,6 @@ public class Order : MonoBehaviour
         {
             spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         }
-        else
-        {
-            Debug.Log("There is no sprite renderer on  " + name);
-        }
     }
 
     public string Name
@@ -30,6 +26,10 @@ public class Order : MonoBehaviour
         set { orderNumber = value; }
     }
 
-    public SpriteRenderer SpriteRenderer => spriteRenderer;
+    public SpriteRenderer SpriteRenderer
+    {
+        get { return spriteRenderer; }
+        set { spriteRenderer = value; }
+    }
     
 }

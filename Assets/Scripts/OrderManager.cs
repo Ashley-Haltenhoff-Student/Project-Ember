@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using UnityEngine;
 
 public class OrderManager : MonoBehaviour
@@ -13,14 +11,16 @@ public class OrderManager : MonoBehaviour
 
     private int lastOrderNum = 1;
 
-    public Order GetNewOrder(string customerName)
+    public void GetNewOrder(Order order, string customerName)
     {
-        Order order = possibleOrders[Random.Range(0, possibleOrders.Length)];
+        Order chosenOrder = possibleOrders[Random.Range(0, possibleOrders.Length)];
+
+        // Update Values
         order.OrderNumber = lastOrderNum++;
+        order.Name = chosenOrder.Name;
+        order.SpriteRenderer = chosenOrder.SpriteRenderer;
 
         Add(order, customerName);
-
-        return order;
     }
 
     public void Add(Order order, string customerName)

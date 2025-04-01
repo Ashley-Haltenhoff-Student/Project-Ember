@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class EspressoControl : MonoBehaviour
 {
+    [SerializeField] private GlobalEvents events;
+
     [SerializeField] private InventoryManager inventory;
     [SerializeField] private GameObject espressoPrefab;
 
@@ -25,5 +27,6 @@ public class EspressoControl : MonoBehaviour
     public void AddEspresso()
     {
         inventory.Add(espressoPrefab);
+        events.TriggerEvent(events.EspressoMade); // for portafilter to reset
     }
 }

@@ -34,6 +34,7 @@ public class Customer : MonoBehaviour
 
     private void Start()
     {
+        
 
         // Get Connections
         player = FindFirstObjectByType<Player>();
@@ -69,17 +70,28 @@ public class Customer : MonoBehaviour
         // If player is near 
         if (Vector2.Distance(player.transform.position, transform.position) < 2f && isSitting)
         {
-            // Validing in order to give them their drink
-            if (inventory.Contains(order) && !isDrinking)
+            Vector2 pos = transform.position;
+            UI.EToInteract(new Vector3(pos.x - 50, pos.y - 50, 0));
+
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                inventory.Remove(order); // Update Inventory
-                UI.RemoveOrder(order.OrderNumber); // Update UI
+                // Validing in order to give them their drink
+                if (inventory.Contains(order) && !isDrinking)
+                {
+                    inventory.Remove(order); // Update Inventory
+                    UI.RemoveOrder(order.OrderNumber); // Update UI
 
-                reaction.React("happy");
+                    reaction.React("happy");
 
-                StartCoroutine(DrinkAndLeave());
-                isDrinking = true;
+                    StartCoroutine(DrinkAndLeave());
+                    isDrinking = true;
+                }
             }
+
+        }
+        else
+        {
+            UI.HideEToInteract();
         }
     }
 
@@ -118,6 +130,13 @@ public class Customer : MonoBehaviour
     {
         // Find table and update occupiancy 
         List<Table> tables = tableManager.OpenTables;
+
+        if (tables.Count < 0)
+        {
+            StartCoroutine(Leave());
+            return;
+        }
+
         chosenTable = tables[Random.Range(0, tables.Count)];
         tableManager.TableIsOccupied(chosenTable);
 
@@ -148,7 +167,7 @@ public class Customer : MonoBehaviour
             yield return null;
         }
 
-        order = orderManager.GetNewOrder(name); // Assign Order
+        orderManager.GetNewOrder(order, name); // Assign Order
     }
 
     private IEnumerator DrinkAndLeave()
@@ -172,7 +191,19 @@ public class Customer : MonoBehaviour
         events.TriggerEvent(events.CustomerLeft);
     }
 
+    private IEnumerator Leave()
+    {
+        // Start leaving
+        while (Vector2.Distance(spawnPoint, transform.position) > 0.5f)
+        {
+            agent.SetDestination(spawnPoint); // Continue walking
+            yield return null;
+        }
 
+        // Customer is now gone
+        isGone = true;
+        events.TriggerEvent(events.CustomerLeft);
+    }
 
     // functions designed for easier and limited access to certain variables
     public string Name
