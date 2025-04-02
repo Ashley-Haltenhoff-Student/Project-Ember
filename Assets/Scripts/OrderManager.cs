@@ -16,11 +16,12 @@ public class OrderManager : MonoBehaviour
         Order chosenOrder = possibleOrders[Random.Range(0, possibleOrders.Length)];
 
         // Update Values
-        order.OrderNumber = lastOrderNum++;
-        order.Name = chosenOrder.Name;
-        order.SpriteRenderer = chosenOrder.SpriteRenderer;
+        order.orderNumber = lastOrderNum++;
+        order.name = chosenOrder.name;
+        order.sprite = chosenOrder.sprite;
 
         Add(order, customerName);
+
     }
 
     public void Add(Order order, string customerName)

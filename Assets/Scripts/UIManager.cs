@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,7 +18,7 @@ public class UIManager : MonoBehaviour
     [Header("Orders")]
     [SerializeField] private GameObject orderUIPrefab;
     [SerializeField] private GameObject orders;
-    [SerializeField] private GameObject customerHoverObject;
+    [SerializeField] private GameObject hoverObject;
 
     private Dictionary<int, GameObject> uiOrderObjs = new Dictionary<int, GameObject>();
 
@@ -26,10 +27,10 @@ public class UIManager : MonoBehaviour
     public UIOrder AddOrder(Order order, string customerName)
     {
         GameObject obj = Instantiate(orderUIPrefab, orders.transform);
-        uiOrderObjs.Add(order.OrderNumber, obj);
+        uiOrderObjs.Add(order.orderNumber, obj);
 
         UIOrder uiOrder = obj.GetComponent<UIOrder>();
-        uiOrder.Initiatialize(customerName, order.Name, order.OrderNumber); // set values
+        uiOrder.Initiatialize(customerName, order.name, order.orderNumber); // set values
         StartCoroutine(
                 UpdateOrderPos());
         return uiOrder;
@@ -83,16 +84,32 @@ public class UIManager : MonoBehaviour
 
     public void OnCustomerHover(string customerName, string orderName, Vector2 cursorPos)
     {
-        customerHoverObject.transform.position = new Vector2(cursorPos.x + 50, cursorPos.y + 50);
-        customerHoverObject.GetComponentInChildren<Text>().text = $"{customerName} wants {orderName}";
+        hoverObject.transform.position = new Vector2(cursorPos.x + 50, cursorPos.y + 50);
+        hoverObject.GetComponentInChildren<Text>().text = $"{customerName} wants {orderName}";
 
-        customerHoverObject.SetActive(true);
+        RectTransform rect = hoverObject.GetComponent<RectTransform>();
+        rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 70);
+
+        hoverObject.SetActive(true);
     }
+
+    public void OnInventoryHover(string itemName, Vector2 cursorPos)
+    {
+        hoverObject.transform.position = new Vector2(cursorPos.x + 50, cursorPos.y + 50);
+        hoverObject.GetComponentInChildren<Text>().text = itemName;
+
+        RectTransform rect = hoverObject.GetComponent<RectTransform>();
+        rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 50);
+
+        hoverObject.SetActive(true);
+    }
+
+    public void OnInventoryHoverLeave() { hoverObject.SetActive(false); }
 
     // When the mouse isn't hovering over the customer anymore
     public void OnCustomerCursorLeave()
     {
-        customerHoverObject.SetActive(false);
+        hoverObject.SetActive(false);
     }
 
     public void EToInteract(Vector3 position)

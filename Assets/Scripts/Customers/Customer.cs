@@ -16,15 +16,16 @@ public class Customer : MonoBehaviour
 
     // Connections
     private Player player;
-    private TableManager tableManager;
     private OrderManager orderManager;
     private InventoryManager inventory;
     private NotifyManager notifyManager;
     private UIManager UI;
 
-    private NavMeshAgent agent;
-    private Table chosenTable;
     public GlobalEvents events;
+    public TableManager tableManager;
+    
+    private Table chosenTable;
+    private NavMeshAgent agent;
 
     [Header("Booleans")]
     [SerializeField] private bool isSitting = false;
@@ -34,21 +35,16 @@ public class Customer : MonoBehaviour
 
     private void Start()
     {
-        
-
-        // Get Connections
+        // Get Connections // could be better :/
         player = FindFirstObjectByType<Player>();
-        tableManager = FindFirstObjectByType<TableManager>();
         agent = GetComponent<NavMeshAgent>();
         notifyManager = FindAnyObjectByType<NotifyManager>();
         inventory = FindFirstObjectByType<InventoryManager>();
         UI = FindFirstObjectByType<UIManager>();
         orderManager = FindFirstObjectByType<OrderManager>();
-
-        
         reaction = GetComponentInChildren<Reaction>();
 
-        Spawn();
+        order = GetComponentInChildren<Order>();
     }
 
     private void Update()
@@ -79,7 +75,7 @@ public class Customer : MonoBehaviour
                 if (inventory.Contains(order) && !isDrinking)
                 {
                     inventory.Remove(order); // Update Inventory
-                    UI.RemoveOrder(order.OrderNumber); // Update UI
+                    UI.RemoveOrder(order.orderNumber); // Update UI
 
                     reaction.React("happy");
 
@@ -109,8 +105,8 @@ public class Customer : MonoBehaviour
         // The only time the player can't move is if a window is open
         if (order && player.canMove)
         {
-            UI.OnCustomerHover(name, order.Name, Input.mousePosition);
-
+            UI.OnCustomerHover(name, order.name, Input.mousePosition);
+            
         }
     }
 
@@ -119,23 +115,17 @@ public class Customer : MonoBehaviour
         UI.OnCustomerCursorLeave();
     }
 
-    private void Spawn()
+    // Called when spawned in Start()
+    public void Spawn()
     {
         gameObject.transform.position = spawnPoint;
-
-        OrderingSequence();
+        StartCoroutine(OrderingSequence());
     }
 
-    private void OrderingSequence()
+    private IEnumerator OrderingSequence()
     {
         // Find table and update occupiancy 
         List<Table> tables = tableManager.OpenTables;
-
-        if (tables.Count < 0)
-        {
-            StartCoroutine(Leave());
-            return;
-        }
 
         chosenTable = tables[Random.Range(0, tables.Count)];
         tableManager.TableIsOccupied(chosenTable);
@@ -147,30 +137,23 @@ public class Customer : MonoBehaviour
         if (seat != null)
         {
             sittingPosition = seat;
+
+            yield return new WaitUntil(() => isSitting);
+
+            orderManager.GetNewOrder(order, name); // Assign Order
+
+            if (order.name == "none") { Debug.Log("Error: Get order failed"); }
         }
-        else { Debug.Log("Seat is null"); }
+        else 
+        { 
+            Debug.Log("Error: Could not find a seat");
+            StartCoroutine(Leave()); // Leave the restaurant
+        }
         
     }
 
-    public void SitAndOrderDrink()
-    {
-        StartCoroutine(OrderDrink());
-    }
 
-    private IEnumerator OrderDrink()
-    {
-
-        // Wait for customer to sit down
-        // Develop decision time here
-        while (!isSitting)
-        {
-            yield return null;
-        }
-
-        orderManager.GetNewOrder(order, name); // Assign Order
-    }
-
-    private IEnumerator DrinkAndLeave()
+    private IEnumerator DrinkAndLeave() // When customer gets a drink
     {
         notifyManager.Notify($"{name} got their order!");
 
@@ -191,7 +174,7 @@ public class Customer : MonoBehaviour
         events.TriggerEvent(events.CustomerLeft);
     }
 
-    private IEnumerator Leave()
+    private IEnumerator Leave() // When customer doesn't get a drink
     {
         // Start leaving
         while (Vector2.Distance(spawnPoint, transform.position) > 0.5f)
@@ -205,7 +188,8 @@ public class Customer : MonoBehaviour
         events.TriggerEvent(events.CustomerLeft);
     }
 
-    // functions designed for easier and limited access to certain variables
+
+    // following functions are designed for easier and limited access to certain variables
     public string Name
     {
         get { return name; }

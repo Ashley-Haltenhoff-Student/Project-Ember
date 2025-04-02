@@ -34,36 +34,29 @@ public class CustomerManager : MonoBehaviour
         while (spawning)
         {
             // Ensure there are open tables
-            if (tableManager.OpenTables.Count <= 0)
+            if (tableManager.OpenTables.Count < 1 && customers.Count > maxCustomers)
             {
                 spawning = false;
             }
-
-            // If there are less than the max amount of customers
-            if (customers.Count <= maxCustomers)
+            else
             {
+                // business of customers goes here
                 yield return new WaitForSeconds(secondsBetweenSpawn);
 
                 GameObject newCustomer = Instantiate(customerPrefab);
                 Customer customer = newCustomer.GetComponent<Customer>(); // access the script
                 
                 // Update values
-                customer.Name = GenerateName();
-                customer.events = events; // Unity Events
+                customer.Name = possibleNames[Random.Range(0, possibleNames.Length)];
+                customer.events = events; // Global Unity Events
+                customer.tableManager = tableManager;
 
                 customers.Add(customer); // Add to list
 
-                customer.SitAndOrderDrink(); // Wait until seated and order
-
+                customer.Spawn();
             }
-            else { spawning = false; }
             yield return null;
         }
-    }
-
-    private string GenerateName()
-    {
-        return possibleNames[Random.Range(0, possibleNames.Length)];
     }
 
     private void DestroyCustomer()

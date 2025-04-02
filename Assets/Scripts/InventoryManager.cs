@@ -6,16 +6,17 @@ using UnityEngine.UI;
 public class InventoryManager : MonoBehaviour
 {
     [SerializeField] private Order[] inventory = new Order[5];
-    [SerializeField] private Image[] inventorySprites = new Image[5];
+    [SerializeField] private InventorySpot[] spots = new InventorySpot[5];
     [SerializeField] private Sprite defaultSprite;
 
     [SerializeField] private NotifyManager notifyManager;
+    [SerializeField] private UIManager UI;
 
 
     private void Start()
     {
         // Verify all UI inventory spaces are retrievable
-        foreach (Image i in inventorySprites)
+        foreach (InventorySpot i in spots)
         {
             if (!i)
             {
@@ -37,7 +38,8 @@ public class InventoryManager : MonoBehaviour
             {
                 Order order = obj.GetComponent<Order>();
                 inventory[i] = order; // Add order
-                inventorySprites[i].sprite = order.SpriteRenderer.sprite; // Update Sprite
+                spots[i].image.sprite = order.sprite; // Update Sprite
+                spots[i].itemName = order.name; // Update name when hovering
 
                 notifyManager.Notify(obj.name + " added to inventory!");
 
@@ -58,11 +60,11 @@ public class InventoryManager : MonoBehaviour
         {
             if (inventory[i] == order )
             {
-                inventorySprites[i].sprite = defaultSprite; // Update sprite
+                spots[i].image.sprite = defaultSprite; // Update sprite
+                spots[i].itemName = "none"; // Update name when hovering
 
                 inventory[i] = null;
-                StartCoroutine(
-                                UpdateInventory());
+                StartCoroutine(UpdateInventory());
                 return;
             }
         }
@@ -99,10 +101,12 @@ public class InventoryManager : MonoBehaviour
                 
 
                 // Shift down order visually
-                inventorySprites[i].sprite = inventorySprites[i + 1].sprite;
-                inventorySprites[i + 1].sprite = defaultSprite;
-
+                spots[i].image.sprite = spots[i + 1].image.sprite;
+                spots[i + 1].image.sprite = defaultSprite;
+                spots[i + 1].itemName = "none"; // Update name when hovering
             }
         }
     }
+
+    
 }
