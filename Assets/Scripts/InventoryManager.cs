@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -58,7 +56,8 @@ public class InventoryManager : MonoBehaviour
         // Loop through inventory to find the object to remove
         for (int i = 0; i < inventory.Length; i++)
         {
-            if (inventory[i] == order )
+            // Check for name, not simply if it's the correct order, because it will search for the order name
+            if (inventory[i].name == order.name)
             {
                 spots[i].image.sprite = defaultSprite; // Update sprite
                 spots[i].itemName = "none"; // Update name when hovering
@@ -76,7 +75,8 @@ public class InventoryManager : MonoBehaviour
     {
         foreach (Order o in inventory)
         {
-            if (o == order)
+            // Check for name, not simply if it's the correct order, because it will search for the order name
+            if (o.name == order.name)
             {
                 return true;
             }

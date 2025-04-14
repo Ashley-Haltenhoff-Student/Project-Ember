@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using UnityEditor.Tilemaps;
 
 public class InventorySpot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {

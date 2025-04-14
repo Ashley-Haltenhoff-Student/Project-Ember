@@ -20,6 +20,8 @@ public class CustomerManager : MonoBehaviour
 
     private void Start()
     {
+        events.GameStart.AddListener(StartSpawning);
+
         events.CustomerLeft.AddListener(DestroyCustomer);
     }
 

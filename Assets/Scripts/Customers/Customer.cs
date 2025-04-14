@@ -82,6 +82,10 @@ public class Customer : MonoBehaviour
                     StartCoroutine(DrinkAndLeave());
                     isDrinking = true;
                 }
+                else
+                {
+                    notifyManager.Notify("You don't have the correct order in your inventory.");
+                }
             }
 
         }
@@ -163,21 +167,13 @@ public class Customer : MonoBehaviour
         tableManager.TableIsOpen(chosenTable);
 
         // Start leaving
-        while (Vector2.Distance(spawnPoint, transform.position) > 0.5f)
-        {
-            agent.SetDestination(spawnPoint); // Continue walking
-            yield return null;
-        }
-
-        // Customer is now gone
-        isGone = true;
-        events.TriggerEvent(events.CustomerLeft);
+        StartCoroutine(Leave());
     }
 
-    private IEnumerator Leave() // When customer doesn't get a drink
+    private IEnumerator Leave()
     {
         // Start leaving
-        while (Vector2.Distance(spawnPoint, transform.position) > 0.5f)
+        while (Vector2.Distance(spawnPoint, transform.position) > 0.75f)
         {
             agent.SetDestination(spawnPoint); // Continue walking
             yield return null;
