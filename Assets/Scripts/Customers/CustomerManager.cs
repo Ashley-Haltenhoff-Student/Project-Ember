@@ -6,10 +6,10 @@ using UnityEngine.Events;
 public class CustomerManager : MonoBehaviour
 {
     
-
     [Header("Connections")]
     [SerializeField] private TableManager tableManager;
     [SerializeField] private GlobalEvents events;
+    [SerializeField] private SettingsManager settings;
 
     [Header("Customer Data")]
     [SerializeField] private List<Customer> customers;
@@ -17,6 +17,7 @@ public class CustomerManager : MonoBehaviour
     [SerializeField] private int maxCustomers = 2;
     [SerializeField] private float secondsBetweenSpawn = 3f;
     [SerializeField] private string[] possibleNames;
+
 
     private void Start()
     {
@@ -27,36 +28,30 @@ public class CustomerManager : MonoBehaviour
 
     public void StartSpawning()
     {
+        
+
         StartCoroutine(Spawning());
     }
 
     private IEnumerator Spawning()
     {
-        bool spawning = true; // Change spawning control from another script
-        while (spawning)
+
+        while (true)
         {
+            
             // Ensure there are open tables
             if (tableManager.OpenTables.Count < 1 && customers.Count > maxCustomers)
             {
-                spawning = false;
+                break;
             }
             else
             {
-                // business of customers goes here
-                yield return new WaitForSeconds(secondsBetweenSpawn);
+                // Find current spawn rate
+                yield return new WaitForSeconds(CalculateSpawnRate());
 
-                GameObject newCustomer = Instantiate(customerPrefab);
-                Customer customer = newCustomer.GetComponent<Customer>(); // access the script
-                
-                // Update values
-                customer.Name = possibleNames[Random.Range(0, possibleNames.Length)];
-                customer.events = events; // Global Unity Events
-                customer.tableManager = tableManager;
-
-                customers.Add(customer); // Add to list
-
-                customer.Spawn();
+                CreateAndSpawnCustomer();
             }
+
             yield return null;
         }
     }
@@ -74,5 +69,28 @@ public class CustomerManager : MonoBehaviour
         }
 
         StartCoroutine(Spawning());
+    }
+
+    private float CalculateSpawnRate()
+    {
+        // 
+
+        return 0;
+    }
+
+    private void CreateAndSpawnCustomer()
+    {
+        GameObject newCustomer = Instantiate(customerPrefab);
+        Customer customer = newCustomer.GetComponent<Customer>(); // access the script
+
+        // Update values
+        customer.Name = possibleNames[Random.Range(0, possibleNames.Length)];
+        customer.events = events; // Global Unity Events
+        customer.tableManager = tableManager;
+
+        customers.Add(customer); // Add to list
+
+
+        customer.Spawn(); // Initialize spawning in script
     }
 }

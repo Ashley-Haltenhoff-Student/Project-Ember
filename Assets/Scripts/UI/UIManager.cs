@@ -9,11 +9,16 @@ public class UIManager : MonoBehaviour
     [Header("Pop Up Windows")]
     [SerializeField] private GameObject espressoWindow;
     [SerializeField] private GameObject coffeeWindow;
+    [SerializeField] private GameObject journal;
 
-    [Header("Other")]
-    [SerializeField] private GameObject gameplaySettings;
+    [Header("Other Objects")]
     [SerializeField] private GameObject generalUI;
     [SerializeField] private GameObject eToInteract;
+    [SerializeField] private GameObject journalIcon;
+
+    [Header("Connections")] 
+    [SerializeField] private SettingsManager settings;
+    [SerializeField] private GlobalEvents events;
 
     [Header("Orders")]
     [SerializeField] private GameObject orderUIPrefab;
@@ -22,6 +27,20 @@ public class UIManager : MonoBehaviour
 
     private Dictionary<int, GameObject> uiOrderObjs = new Dictionary<int, GameObject>();
 
+
+    private void Start()
+    {
+        events.GameStart.AddListener(GameStart);
+    }
+
+    private void GameStart()
+    {
+        // Validate if journal is open for use or not
+        if (!settings.allowJournal)
+        {
+            journalIcon.SetActive(false);
+        }
+    }
 
 
     public UIOrder AddOrder(Order order, string customerName)
@@ -35,7 +54,6 @@ public class UIManager : MonoBehaviour
                 UpdateOrderPos());
         return uiOrder;
     }
-
 
     public void RemoveOrder(int orderNum)
     {
@@ -82,6 +100,8 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    // Following functions are interactions of objects
+
     public void OnCustomerHover(string customerName, string orderName, Vector2 cursorPos)
     {
         hoverObject.transform.position = new Vector2(cursorPos.x + 50, cursorPos.y + 50);
@@ -119,4 +139,16 @@ public class UIManager : MonoBehaviour
     }
 
     public void HideEToInteract() { eToInteract.SetActive(false); }
+
+    public void ToggleJournal()
+    {
+        if (journal.activeSelf)
+        {
+            journal.SetActive(false);
+        }
+        else
+        {
+            journal.SetActive(true);
+        }
+    }
 }
