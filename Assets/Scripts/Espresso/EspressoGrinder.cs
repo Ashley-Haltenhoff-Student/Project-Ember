@@ -7,6 +7,7 @@ public class EspressoGrinder : LockSpot
     private bool isFilled = false; // Filled with coffee beans
 
     [SerializeField] private EspressoControl control;
+    [SerializeField] private Animator espressoAnimator;
 
     private void Start()
     {
@@ -70,10 +71,15 @@ public class EspressoGrinder : LockSpot
     {  
 
         notifyManager.Notify("Grinding...");
-        yield return new WaitForSeconds(4);
-        notifyManager.Notify("Grinding complete!");
+        espressoAnimator.SetBool("isGrinding", true);
 
-        
+        yield return new WaitForSeconds(4);
+
+        notifyManager.Notify("Grinding complete!");
+        espressoAnimator.SetBool("isGrinding", false);
+
+        control.ToggleEspressoCup(true); // Visually
+
         control.CanBrew(true);
         control.CanGrind(false);
 

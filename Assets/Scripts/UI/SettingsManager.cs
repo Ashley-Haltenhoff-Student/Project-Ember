@@ -12,7 +12,6 @@ public class SettingsManager : MonoBehaviour
     [SerializeField] private GameObject journalCheckMark;
 
     [SerializeField] private GlobalEvents events;
-    [SerializeField] private AudioManager audioManager;
 
     [Header("Settings")]
     public string customerBusiness = "steady";
@@ -27,7 +26,6 @@ public class SettingsManager : MonoBehaviour
     {
 
         settings.SetActive(false);
-        //audioManager.ShopOpen(); // Update this AT HOME
 
         events.TriggerEvent(events.GameStart); // Trigger Event
     }

@@ -37,5 +37,7 @@ public class EspressoBrewer : LockSpot
         control.CanBrew(false);
 
         control.AddEspresso(); // Add to inventory
+
+        control.ToggleEspressoCup(false); // Visually
     }
 }

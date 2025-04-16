@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject generalUI;
     [SerializeField] private GameObject eToInteract;
     [SerializeField] private GameObject journalIcon;
+    [SerializeField] private GameObject pauseMenu;
 
     [Header("Connections")] 
     [SerializeField] private SettingsManager settings;
@@ -33,12 +34,44 @@ public class UIManager : MonoBehaviour
         events.GameStart.AddListener(GameStart);
     }
 
+    public void TogglePause()
+    {
+        if (Time.timeScale > 0)
+        {
+            pauseMenu.SetActive(true);
+            Time.timeScale = 0;
+        }
+        else
+        {
+            pauseMenu.SetActive(false);
+            Time.timeScale = 1;
+        }
+    }
+
     private void GameStart()
     {
         // Validate if journal is open for use or not
         if (!settings.allowJournal)
         {
             journalIcon.SetActive(false);
+        }
+
+        StartCoroutine(PauseMenuCoroutine());
+    }
+
+    private IEnumerator PauseMenuCoroutine()
+    {
+        while (true)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (espressoWindow.transform.position != Vector3.zero &&
+                    coffeeWindow.transform.position != Vector3.zero)
+                {
+                    TogglePause();
+                }
+            }
+            yield return null;
         }
     }
 
