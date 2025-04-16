@@ -14,16 +14,18 @@ public class Customer : MonoBehaviour
     [SerializeField] new private string name;
     [SerializeField] private Reaction reaction;
 
+    private string emotion = "happy";
+    public float timer;
+    public string customerType = "normal";
+
     // Connections
     private Player player;
     private OrderManager orderManager;
     private InventoryManager inventory;
     private NotifyManager notifyManager;
     private UIManager UI;
-
     public GlobalEvents events;
     public TableManager tableManager;
-    
     private Table chosenTable;
     private NavMeshAgent agent;
 
@@ -35,7 +37,7 @@ public class Customer : MonoBehaviour
 
     private void Start()
     {
-        // Get Connections // could be better :/
+        // Get Connections
         player = FindFirstObjectByType<Player>();
         agent = GetComponent<NavMeshAgent>();
         notifyManager = FindAnyObjectByType<NotifyManager>();
@@ -43,8 +45,10 @@ public class Customer : MonoBehaviour
         UI = FindFirstObjectByType<UIManager>();
         orderManager = FindFirstObjectByType<OrderManager>();
         reaction = GetComponentInChildren<Reaction>();
-
         order = GetComponentInChildren<Order>();
+
+
+        StartCoroutine(Timer());
     }
 
     private void Update()
@@ -77,7 +81,7 @@ public class Customer : MonoBehaviour
                     inventory.Remove(order); // Update Inventory
                     UI.RemoveOrder(order.orderNumber); // Update UI
 
-                    reaction.React("happy");
+                    reaction.React(emotion);
 
                     StartCoroutine(DrinkAndLeave());
                     isDrinking = true;
@@ -109,7 +113,7 @@ public class Customer : MonoBehaviour
         // The only time the player can't move is if a window is open
         if (order && player.canMove)
         {
-            UI.OnCustomerHover(name, order.name, Input.mousePosition);
+            UI.OnCustomerHover(name, order.name, customerType, Input.mousePosition);
             
         }
     }
@@ -156,7 +160,6 @@ public class Customer : MonoBehaviour
         
     }
 
-
     private IEnumerator DrinkAndLeave() // When customer gets a drink
     {
         notifyManager.Notify($"{name} got their order!");
@@ -183,6 +186,19 @@ public class Customer : MonoBehaviour
         isGone = true;
         events.TriggerEvent(events.CustomerLeft);
     }
+
+
+    private IEnumerator Timer()
+    {
+        while (timer > 0)
+        {
+            yield return new WaitForSeconds(1);
+            timer--;
+        }
+
+        Debug.Log($"Timer ran out for {customerType} {name}");
+    }
+
 
 
     // following functions are designed for easier and limited access to certain variables

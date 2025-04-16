@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject eToInteract;
     [SerializeField] private GameObject journalIcon;
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject scoreMenu;
 
     [Header("Connections")] 
     [SerializeField] private SettingsManager settings;
@@ -135,10 +136,19 @@ public class UIManager : MonoBehaviour
 
     // Following functions are interactions of objects
 
-    public void OnCustomerHover(string customerName, string orderName, Vector2 cursorPos)
+    public void OnCustomerHover(string customerName, string orderName, string customerType, Vector2 cursorPos)
     {
         hoverObject.transform.position = new Vector2(cursorPos.x + 50, cursorPos.y + 50);
-        hoverObject.GetComponentInChildren<Text>().text = $"{customerName} wants {orderName}";
+
+        // Display customer type unless normal 
+        if (customerType != "normal")
+        {
+            hoverObject.GetComponentInChildren<Text>().text = $"{customerType} {customerName} wants {orderName}";
+        }
+        else
+        {
+            hoverObject.GetComponentInChildren<Text>().text = $"{customerName} wants {orderName}";
+        }
 
         RectTransform rect = hoverObject.GetComponent<RectTransform>();
         rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 70);

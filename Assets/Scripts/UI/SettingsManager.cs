@@ -1,3 +1,4 @@
+using NUnit.Framework.Constraints;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -9,6 +10,7 @@ public class SettingsManager : MonoBehaviour
     [Header("Gameobject Connections")]
     [SerializeField] private GameObject settings;
     [SerializeField] private SettingsOption[] businessOptions;
+    [SerializeField] private CustomerTypeOption[] customerOptions;
     [SerializeField] private GameObject journalCheckMark;
 
     [SerializeField] private GlobalEvents events;
@@ -16,7 +18,11 @@ public class SettingsManager : MonoBehaviour
     [Header("Settings")]
     public string customerBusiness = "steady";
     public bool allowJournal = true;
-
+    public int maxCustomers;
+    public int spawnRate;
+    public bool impatientCustomers = false;
+    public bool confusedCustomers = false;
+    public bool uncertainCustomers = false;
 
 
 
@@ -24,9 +30,26 @@ public class SettingsManager : MonoBehaviour
 
     public void Go()
     {
+        // Find which customer types were checked off and set them as true
+        foreach (CustomerTypeOption c in customerOptions)
+        {
+            if (c.CheckMarked)
+            {
+                switch (c.CustomerType)
+                {
+                    case "impatient":
+                        impatientCustomers = true; break;
+                    case "confused":
+                        confusedCustomers = true; break;
+                    case "uncertain":
+                        uncertainCustomers = true; break;
+                    default: break;
+                }
+            }
+            
+        }
 
-        settings.SetActive(false);
-
+        settings.SetActive(false); // Hide settings
         events.TriggerEvent(events.GameStart); // Trigger Event
     }
 
@@ -39,7 +62,22 @@ public class SettingsManager : MonoBehaviour
         {
             customerBusiness = choice;
 
-            
+            // Update max customers based on the chosen business by the player
+            switch (customerBusiness)
+            {
+                case "slow":
+                    maxCustomers = 2;
+                    spawnRate = 10;
+                    break;
+                case "steady":
+                    maxCustomers = 3; 
+                    spawnRate = 5;
+                    break;
+                case "busy":
+                    maxCustomers = 5;
+                    spawnRate = 3;
+                    break;
+            }
         }
         else { Debug.Log("Cannot update the customer business to value " + choice); }
     }

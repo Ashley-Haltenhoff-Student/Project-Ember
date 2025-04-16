@@ -7,6 +7,7 @@ public class CustomerTypeOption : SettingsOption
 {
     [SerializeField] private GameObject checkMark;
 
+    [SerializeField] private string customerType;
     private bool checkMarked = false;
 
     public void ToggleCheckMark()
@@ -24,4 +25,5 @@ public class CustomerTypeOption : SettingsOption
     }
 
     public bool CheckMarked {  get { return checkMarked; } }
+    public string CustomerType { get { return customerType; } }
 }
