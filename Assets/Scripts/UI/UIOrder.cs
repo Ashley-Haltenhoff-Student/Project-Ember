@@ -11,13 +11,20 @@ public class UIOrder : MonoBehaviour
     [SerializeField] private Text nameText;
     [SerializeField] private Text customerNameText;
 
-    public void Initiatialize(string customerName, string orderName, int orderNumber)
+    public void Initiatialize(string customerName, string customerType, string orderName, int orderNumber)
     {
         orderNumText.text = orderNumber.ToString();
         orderNum = orderNumber;
 
         this.orderName = orderName;
-        nameText.text = orderName;
+        if (customerType != "normal")
+        {
+            nameText.text = customerType + " " + orderName;
+        }
+        else
+        {
+            nameText.text = orderName;
+        }
 
         customerNameText.text = customerName;
     }

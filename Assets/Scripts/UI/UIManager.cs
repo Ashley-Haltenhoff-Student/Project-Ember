@@ -77,13 +77,13 @@ public class UIManager : MonoBehaviour
     }
 
 
-    public UIOrder AddOrder(Order order, string customerName)
+    public UIOrder AddOrder(Order order, string customerName, string customerType)
     {
         GameObject obj = Instantiate(orderUIPrefab, orders.transform);
         uiOrderObjs.Add(order.orderNumber, obj);
 
         UIOrder uiOrder = obj.GetComponent<UIOrder>();
-        uiOrder.Initiatialize(customerName, order.name, order.orderNumber); // set values
+        uiOrder.Initiatialize(customerName, customerType, order.name, order.orderNumber); // set values
         StartCoroutine(
                 UpdateOrderPos());
         return uiOrder;

@@ -20,7 +20,7 @@ public class CustomerManager : MonoBehaviour
 
     private List<string> customerTypes = new();
     private string lastCustomerTypeChosen;
-    private int customersSinceNormal = 0;
+    private int normalCustomerStreak = 0;
     private int spawnRate = 5;
 
 
@@ -52,11 +52,7 @@ public class CustomerManager : MonoBehaviour
         while (true)
         {
             // Ensure there are open tables or too many customers
-            if (tableManager.OpenTables.Count < 1 || customers.Count >= maxCustomers)
-            {
-                break;
-            }
-            else
+            if (tableManager.OpenTables.Count >= 1 || customers.Count < maxCustomers)
             {
                 // Find current spawn rate
                 yield return new WaitForSeconds(spawnRate);
@@ -104,17 +100,17 @@ public class CustomerManager : MonoBehaviour
 
     private void SetCustomerType(Customer customer)
     {
-        
-        if (customersSinceNormal >= Random.Range(1, 2)) // If there's been at 1-2 normal customers in between
+        // If there's been at 1 normal customer in between and there are unique types chosen from settings
+        if (normalCustomerStreak > 1 && customerTypes.Count > 0) 
         {
             bool customerFound = false;
             string chosenCustomer = "normal";
 
             while (!customerFound) // Until a unique customer type is found that wasn't used last time
             {
-                chosenCustomer = customerTypes[Random.Range(0, customerTypes.Count - 1)];
+                chosenCustomer = customerTypes[Random.Range(0, customerTypes.Count)];
 
-                if (chosenCustomer != lastCustomerTypeChosen)
+                if (chosenCustomer != lastCustomerTypeChosen || customerTypes.Count == 1)
                 {
                     customerFound = true;
                     lastCustomerTypeChosen = chosenCustomer; // Update the last chosen unique customer
@@ -123,29 +119,34 @@ public class CustomerManager : MonoBehaviour
 
             // Set the customer type
             customer.customerType = chosenCustomer;
+            normalCustomerStreak = 0;
         }
-        else { customer.customerType = "normal"; customersSinceNormal++; } // Else just be a normal customer
+        else // Else just be a normal customer
+        { 
+            customer.customerType = "normal"; 
+            normalCustomerStreak++; 
+        } 
 
 
         // A switch statement that updates values specifically for the customer type
         // Update the timer, 
-        switch (customer.customerType)
-        {
-            case "impatient":
-                customer.timer = 30.0f;
-                //
-                break;
-            case "confused":
-                //
-                break;
-            case "uncertain":
-                //
-                break;
-            case "normal":
-            default:
-                customer.timer = 60.0f;
-                //
-                break;
-        }
+        //switch (customer.customerType)
+        //{
+        //    case "impatient":
+        //        customer.timer = 30.0f;
+        //        //
+        //        break;
+        //    case "confused":
+        //        //
+        //        break;
+        //    case "uncertain":
+        //        //
+        //        break;
+        //    case "normal":
+        //    default:
+        //        customer.timer = 60.0f;
+        //        //
+        //        break;
+        //}
     }
 }

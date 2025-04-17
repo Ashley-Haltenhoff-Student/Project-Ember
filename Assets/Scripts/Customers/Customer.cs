@@ -15,7 +15,7 @@ public class Customer : MonoBehaviour
     [SerializeField] private Reaction reaction;
 
     private string emotion = "happy";
-    public float timer;
+    public float timer = 60.0f;
     public string customerType = "normal";
 
     // Connections
@@ -148,7 +148,7 @@ public class Customer : MonoBehaviour
 
             yield return new WaitUntil(() => isSitting);
 
-            orderManager.GetNewOrder(order, name); // Assign Order
+            orderManager.GetNewOrder(order, name, customerType); // Assign Order
 
             if (order.name == "none") { Debug.Log("Error: Get order failed"); }
         }

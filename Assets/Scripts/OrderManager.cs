@@ -11,7 +11,7 @@ public class OrderManager : MonoBehaviour
 
     private int lastOrderNum = 1;
 
-    public void GetNewOrder(Order order, string customerName)
+    public void GetNewOrder(Order order, string customerName, string customerType)
     {
         Order chosenOrder = possibleOrders[Random.Range(0, possibleOrders.Length)];
 
@@ -20,15 +20,15 @@ public class OrderManager : MonoBehaviour
         order.name = chosenOrder.name;
         order.sprite = chosenOrder.sprite;
 
-        Add(order, customerName);
+        Add(order, customerName, customerType);
 
     }
 
-    public void Add(Order order, string customerName)
+    public void Add(Order order, string customerName, string customerType)
     {
         // Add to Lists
         orders.Add(order);
-        UIOrder uiOrder = UI.AddOrder(order, customerName); // Update UI
+        UIOrder uiOrder = UI.AddOrder(order, customerName, customerType); // Update UI
         uiOrders.Add(uiOrder);
     }
 
