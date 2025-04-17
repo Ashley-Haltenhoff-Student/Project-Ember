@@ -9,6 +9,7 @@ public class GlobalEvents : MonoBehaviour
     [SerializeField] private UnityEvent espressoMade = new();
     [SerializeField] private UnityEvent coffeeMade = new();
     [SerializeField] private UnityEvent gameStart = new();
+    [SerializeField] private UnityEvent gameEnd = new();
 
     public UnityEvent CustomerLeft
     {
@@ -28,6 +29,11 @@ public class GlobalEvents : MonoBehaviour
     public UnityEvent GameStart
     {
         get { return gameStart; }
+    }
+
+    public  UnityEvent GameEnd 
+    { 
+        get { return gameEnd; } 
     }
 
     public void TriggerEvent(UnityEvent givenEvent)

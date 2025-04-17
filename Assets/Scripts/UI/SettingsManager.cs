@@ -49,6 +49,8 @@ public class SettingsManager : MonoBehaviour
             
         }
 
+        CustomerBusiness(customerBusiness); // Call it again to ensure one is picked
+
         settings.SetActive(false); // Hide settings
         events.TriggerEvent(events.GameStart); // Trigger Event
     }

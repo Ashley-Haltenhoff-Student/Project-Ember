@@ -10,6 +10,7 @@ public class CustomerManager : MonoBehaviour
     [SerializeField] private TableManager tableManager;
     [SerializeField] private GlobalEvents events;
     [SerializeField] private SettingsManager settings;
+    [SerializeField] private NotifyManager notifyManager;
 
     [Header("Customer Data")]
     [SerializeField] private List<Customer> customers;
@@ -43,8 +44,12 @@ public class CustomerManager : MonoBehaviour
         if (settings.confusedCustomers) { customerTypes.Add("confused"); }
         if (settings.uncertainCustomers) { customerTypes.Add("uncertain"); }
 
+        // Notify business choice when game starts
+        notifyManager.Notify("Business chosen: " + settings.customerBusiness);
+
         StartCoroutine(Spawning());
     }
+
 
     private IEnumerator Spawning()
     {

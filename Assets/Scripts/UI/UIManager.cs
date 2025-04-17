@@ -7,16 +7,20 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [Header("Pop Up Windows")]
-    [SerializeField] private GameObject espressoWindow;
-    [SerializeField] private GameObject coffeeWindow;
     [SerializeField] private GameObject journal;
+    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject scoreMenu;
+    [SerializeField] private Text scoreMenuScore;
 
     [Header("Other Objects")]
     [SerializeField] private GameObject generalUI;
     [SerializeField] private GameObject eToInteract;
     [SerializeField] private GameObject journalIcon;
-    [SerializeField] private GameObject pauseMenu;
-    [SerializeField] private GameObject scoreMenu;
+    [SerializeField] private Text minutesDisplay;
+    [SerializeField] private Text secondsDisplay;
+    [SerializeField] private Text scoreDisplay;
+
+    public bool applianceWindowOpen;
 
     [Header("Connections")] 
     [SerializeField] private SettingsManager settings;
@@ -33,20 +37,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         events.GameStart.AddListener(GameStart);
-    }
-
-    public void TogglePause()
-    {
-        if (Time.timeScale > 0)
-        {
-            pauseMenu.SetActive(true);
-            Time.timeScale = 0;
-        }
-        else
-        {
-            pauseMenu.SetActive(false);
-            Time.timeScale = 1;
-        }
+        events.GameEnd.AddListener(GameEnd);
     }
 
     private void GameStart()
@@ -57,19 +48,75 @@ public class UIManager : MonoBehaviour
             journalIcon.SetActive(false);
         }
 
-        StartCoroutine(PauseMenuCoroutine());
+        StartCoroutine(PauseMenuCoroutine()); // Wait for pause menu
+        StartCoroutine(Timer());
+
+        Time.timeScale = 1; // In case it's paused from Game End
+    }
+
+    private void GameEnd()
+    {
+        Time.timeScale = 0;
+
+        scoreMenuScore.text = scoreDisplay.text;
+        scoreMenu.SetActive(true);
+        
+    }
+
+    private IEnumerator Timer()
+    {
+        int minutesLeft = 2;
+        int secondsLeft = 30;
+
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            secondsLeft--;
+
+            // If it's passed zero, lower minutes
+            if (secondsLeft == -1)
+            {
+                secondsLeft = 59;
+                minutesLeft--;
+
+                if (minutesLeft == -1) { break; } // If the timer has reached the 0:00, then stop
+
+                minutesDisplay.text = minutesLeft.ToString();
+
+            }
+
+            // Display with a zero if it's less than 10
+            if ( secondsLeft < 10 )
+            {
+                secondsDisplay.text = "0" + secondsLeft.ToString();
+            }
+            else
+            {
+                secondsDisplay.text = secondsLeft.ToString();
+            }
+        }
+
+        // Game is over
+        events.TriggerEvent(events.GameEnd);
     }
 
     private IEnumerator PauseMenuCoroutine()
     {
         while (true)
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            yield return null;
+            if (Input.GetKeyDown(KeyCode.Escape) && applianceWindowOpen == false)
             {
-                if (espressoWindow.transform.position != Vector3.zero &&
-                    coffeeWindow.transform.position != Vector3.zero)
+
+                if (Time.timeScale > 0)
                 {
-                    TogglePause();
+                    pauseMenu.SetActive(true);
+                    Time.timeScale = 0;
+                }
+                else
+                {
+                    pauseMenu.SetActive(false);
+                    Time.timeScale = 1;
                 }
             }
             yield return null;
@@ -136,18 +183,18 @@ public class UIManager : MonoBehaviour
 
     // Following functions are interactions of objects
 
-    public void OnCustomerHover(string customerName, string orderName, string customerType, Vector2 cursorPos)
+    public void OnCustomerHover(string customerName, string orderName, string customerType, int timerSecondsLeft, Vector2 cursorPos)
     {
         hoverObject.transform.position = new Vector2(cursorPos.x + 50, cursorPos.y + 50);
 
         // Display customer type unless normal 
         if (customerType != "normal")
         {
-            hoverObject.GetComponentInChildren<Text>().text = $"{customerType} {customerName} wants {orderName}";
+            hoverObject.GetComponentInChildren<Text>().text = $"{customerType} {customerName} wants {orderName} - seconds left: {timerSecondsLeft}";
         }
         else
         {
-            hoverObject.GetComponentInChildren<Text>().text = $"{customerName} wants {orderName}";
+            hoverObject.GetComponentInChildren<Text>().text = $"{customerName} wants {orderName} - {timerSecondsLeft}";
         }
 
         RectTransform rect = hoverObject.GetComponent<RectTransform>();
@@ -188,10 +235,17 @@ public class UIManager : MonoBehaviour
         if (journal.activeSelf)
         {
             journal.SetActive(false);
+            Time.timeScale = 1;
         }
         else
         {
             journal.SetActive(true);
+            Time.timeScale = 0;
         }
+    }
+
+    public void UpdateScore(string score)
+    {
+        scoreDisplay.text = score;
     }
 }

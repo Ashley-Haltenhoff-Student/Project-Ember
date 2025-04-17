@@ -15,7 +15,7 @@ public class Customer : MonoBehaviour
     [SerializeField] private Reaction reaction;
 
     private string emotion = "happy";
-    public float timer = 60.0f;
+    public int timer = 60;
     public string customerType = "normal";
 
     // Connections
@@ -28,6 +28,7 @@ public class Customer : MonoBehaviour
     public TableManager tableManager;
     private Table chosenTable;
     private NavMeshAgent agent;
+    private ScoreManager scoreManager;
 
     [Header("Booleans")]
     [SerializeField] private bool isSitting = false;
@@ -46,7 +47,10 @@ public class Customer : MonoBehaviour
         orderManager = FindFirstObjectByType<OrderManager>();
         reaction = GetComponentInChildren<Reaction>();
         order = GetComponentInChildren<Order>();
+        scoreManager = FindFirstObjectByType<ScoreManager>();
 
+
+        //events.GameEnd.AddListener();
 
         StartCoroutine(Timer());
     }
@@ -113,7 +117,7 @@ public class Customer : MonoBehaviour
         // The only time the player can't move is if a window is open
         if (order && player.canMove)
         {
-            UI.OnCustomerHover(name, order.name, customerType, Input.mousePosition);
+            UI.OnCustomerHover(name, order.name, customerType, timer, Input.mousePosition);
             
         }
     }
@@ -163,6 +167,7 @@ public class Customer : MonoBehaviour
     private IEnumerator DrinkAndLeave() // When customer gets a drink
     {
         notifyManager.Notify($"{name} got their order!");
+        scoreManager.AddToScore(); // Update Score
 
         yield return new WaitForSeconds(3);
 
@@ -195,6 +200,9 @@ public class Customer : MonoBehaviour
             yield return new WaitForSeconds(1);
             timer--;
         }
+
+        reaction.React("angry");
+        StartCoroutine(Leave());
 
         Debug.Log($"Timer ran out for {customerType} {name}");
     }
