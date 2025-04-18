@@ -57,7 +57,7 @@ public class CustomerManager : MonoBehaviour
         while (true)
         {
             // Ensure there are open tables or too many customers
-            if (tableManager.OpenTables.Count >= 1 || customers.Count < maxCustomers)
+            if (tableManager.OpenTables.Count > 0 && customers.Count < maxCustomers)
             {
                 // Find current spawn rate
                 yield return new WaitForSeconds(spawnRate);
@@ -87,6 +87,15 @@ public class CustomerManager : MonoBehaviour
 
     private void CreateAndSpawnCustomer()
     {
+
+        Table reservedTable = tableManager.ReserveAvailableTable();
+
+        if (reservedTable == null)
+        {
+            Debug.Log("No available table, canceling customer spawn.");
+            return; // No table available, don't spawn
+        }
+
         GameObject newCustomer = Instantiate(customerPrefab);
         Customer customer = newCustomer.GetComponent<Customer>(); // access the script
 
@@ -96,6 +105,7 @@ public class CustomerManager : MonoBehaviour
         customer.Name = possibleNames[Random.Range(0, possibleNames.Length)];
         customer.events = events; // Global Unity Events
         customer.tableManager = tableManager;
+        customer.AssignTable(reservedTable);
 
         customers.Add(customer); // Add to list
 

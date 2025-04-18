@@ -10,6 +10,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject journal;
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject scoreMenu;
+
+    [SerializeField] private GameObject settingsCanvas;
+    [SerializeField] private GameObject settingsMenu;
+    [SerializeField] private GameObject tutorialMenu;
+    [SerializeField] private GameObject welcomeScreen;
+
+
     [SerializeField] private Text scoreMenuScore;
 
     [Header("Other Objects")]
@@ -38,6 +45,8 @@ public class UIManager : MonoBehaviour
     {
         events.GameStart.AddListener(GameStart);
         events.GameEnd.AddListener(GameEnd);
+
+        Time.timeScale = 1; // In case it's paused from Game End
     }
 
     private void GameStart()
@@ -50,6 +59,18 @@ public class UIManager : MonoBehaviour
 
         StartCoroutine(PauseMenuCoroutine()); // Wait for pause menu
         StartCoroutine(Timer());
+
+        
+    }
+
+    public void GameRestart()
+    {
+        scoreMenu.SetActive(false);
+        welcomeScreen.SetActive(false);
+        tutorialMenu.SetActive(false);
+
+        settingsCanvas.SetActive(true);
+        settingsMenu.SetActive(true);
 
         Time.timeScale = 1; // In case it's paused from Game End
     }
@@ -65,8 +86,10 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator Timer()
     {
-        int minutesLeft = 2;
-        int secondsLeft = 30;
+        int minutesLeft = 0;
+        int secondsLeft = 5;
+
+        minutesDisplay.text = minutesLeft.ToString();
 
         while (true)
         {
@@ -108,21 +131,25 @@ public class UIManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Escape) && applianceWindowOpen == false)
             {
 
-                if (Time.timeScale > 0)
-                {
-                    pauseMenu.SetActive(true);
-                    Time.timeScale = 0;
-                }
-                else
-                {
-                    pauseMenu.SetActive(false);
-                    Time.timeScale = 1;
-                }
+                TogglePause();
             }
             yield return null;
         }
     }
 
+    public void TogglePause()
+    {
+        if (Time.timeScale > 0)
+        {
+            pauseMenu.SetActive(true);
+            Time.timeScale = 0;
+        }
+        else
+        {
+            pauseMenu.SetActive(false);
+            Time.timeScale = 1;
+        }
+    }
 
     public UIOrder AddOrder(Order order, string customerName, string customerType)
     {

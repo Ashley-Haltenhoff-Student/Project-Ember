@@ -20,6 +20,7 @@ public class TableManager : MonoBehaviour
 
     public void TableIsOccupied(Table table)
     {
+
         foreach (Table t in tables)
         {
             if (t == table)
@@ -69,6 +70,18 @@ public class TableManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public Table ReserveAvailableTable()
+    {
+        if (openTables.Count == 0) return null;
+
+        Table t = openTables[0];
+        openTables.Remove(t);
+        busyTables.Add(t);
+        t.IsOccupied = true; // Optional if IsOccupied tracks actual sitting
+
+        return t;
     }
 
     public List<Table> OpenTables => openTables;

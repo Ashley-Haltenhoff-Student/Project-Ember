@@ -49,10 +49,7 @@ public class Customer : MonoBehaviour
         order = GetComponentInChildren<Order>();
         scoreManager = FindFirstObjectByType<ScoreManager>();
 
-
-        //events.GameEnd.AddListener();
-
-        
+        events.GameEnd.AddListener(End);
     }
 
     private void Update()
@@ -136,13 +133,8 @@ public class Customer : MonoBehaviour
 
     private IEnumerator OrderingSequence()
     {
-        // Find table and update occupiancy 
-        List<Table> tables = tableManager.OpenTables;
 
-        chosenTable = tables[Random.Range(0, tables.Count)];
-        tableManager.TableIsOccupied(chosenTable);
-
-        // Find seat
+        // Find seat from table given from customer manager
         Vector2[] seatOptions = chosenTable.SeatPositions; // Get seat positions
         Vector2 seat = seatOptions[Random.Range(0, seatOptions.Length)];
 
@@ -180,6 +172,12 @@ public class Customer : MonoBehaviour
         StartCoroutine(Leave());
     }
 
+    private void End()
+    {
+        isGone = true;
+        events.TriggerEvent(events.CustomerLeft);
+    }
+
     private IEnumerator Leave()
     {
         // Start leaving
@@ -214,7 +212,10 @@ public class Customer : MonoBehaviour
         Debug.Log($"Timer ran out for {customerType} {name}");
     }
 
-
+    public void AssignTable(Table table)
+    {
+        chosenTable = table;
+    }
 
     // following functions are designed for easier and limited access to certain variables
     public string Name

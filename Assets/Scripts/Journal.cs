@@ -5,4 +5,7 @@ using UnityEngine;
 public class Journal : MonoBehaviour
 {
     [SerializeField] private UIManager UI;
+    [SerializeField] private GameObject journal;
+    
+
 }
