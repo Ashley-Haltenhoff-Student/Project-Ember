@@ -52,7 +52,7 @@ public class Customer : MonoBehaviour
 
         //events.GameEnd.AddListener();
 
-        StartCoroutine(Timer());
+        
     }
 
     private void Update()
@@ -152,7 +152,9 @@ public class Customer : MonoBehaviour
 
             yield return new WaitUntil(() => isSitting);
 
+            
             orderManager.GetNewOrder(order, name, customerType); // Assign Order
+            StartCoroutine(Timer()); // Start timer
 
             if (order.name == "none") { Debug.Log("Error: Get order failed"); }
         }
@@ -195,6 +197,11 @@ public class Customer : MonoBehaviour
 
     private IEnumerator Timer()
     {
+        if (customerType == "impatient")
+        {
+            timer = 45;
+        }
+
         while (timer > 0)
         {
             yield return new WaitForSeconds(1);

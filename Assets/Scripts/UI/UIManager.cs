@@ -198,7 +198,7 @@ public class UIManager : MonoBehaviour
         }
 
         RectTransform rect = hoverObject.GetComponent<RectTransform>();
-        rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 70);
+        rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
 
         hoverObject.SetActive(true);
     }

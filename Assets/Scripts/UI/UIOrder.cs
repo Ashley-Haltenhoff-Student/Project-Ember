@@ -17,14 +17,7 @@ public class UIOrder : MonoBehaviour
         orderNum = orderNumber;
 
         this.orderName = orderName;
-        if (customerType != "normal")
-        {
-            nameText.text = customerType + " " + orderName;
-        }
-        else
-        {
-            nameText.text = orderName;
-        }
+        nameText.text = orderName;
 
         customerNameText.text = customerName;
     }

@@ -132,26 +132,5 @@ public class CustomerManager : MonoBehaviour
             normalCustomerStreak++; 
         } 
 
-
-        // A switch statement that updates values specifically for the customer type
-        // Update the timer, 
-        //switch (customer.customerType)
-        //{
-        //    case "impatient":
-        //        customer.timer = 30.0f;
-        //        //
-        //        break;
-        //    case "confused":
-        //        //
-        //        break;
-        //    case "uncertain":
-        //        //
-        //        break;
-        //    case "normal":
-        //    default:
-        //        customer.timer = 60.0f;
-        //        //
-        //        break;
-        //}
     }
 }

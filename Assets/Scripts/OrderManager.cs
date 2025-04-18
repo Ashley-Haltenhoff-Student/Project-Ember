@@ -17,8 +17,17 @@ public class OrderManager : MonoBehaviour
 
         // Update Values
         order.orderNumber = lastOrderNum++;
-        order.name = chosenOrder.name;
         order.sprite = chosenOrder.sprite;
+
+        // If they're confused, choose a the chosen orders confused name
+        if (customerType == "confused")
+        {
+            order.name = chosenOrder.confusedName;
+        }
+        else
+        {
+            order.name = chosenOrder.name;
+        }
 
         Add(order, customerName, customerType);
 

@@ -152,7 +152,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      The_Djungelskog_0: 6595850295614492806
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
