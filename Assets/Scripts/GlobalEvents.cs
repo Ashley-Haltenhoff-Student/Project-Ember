@@ -8,6 +8,7 @@ public class GlobalEvents : MonoBehaviour
     [SerializeField] private UnityEvent customerLeft = new();
     [SerializeField] private UnityEvent espressoMade = new();
     [SerializeField] private UnityEvent coffeeMade = new();
+    [SerializeField] private UnityEvent shopOpen = new();
     [SerializeField] private UnityEvent gameStart = new();
     [SerializeField] private UnityEvent gameEnd = new();
     [SerializeField] private UnityEvent gameRestart = new();
@@ -27,10 +28,12 @@ public class GlobalEvents : MonoBehaviour
         get { return coffeeMade; }
     }
 
-    public UnityEvent GameStart
+    public UnityEvent ShopOpen
     {
-        get { return gameStart; }
+        get { return shopOpen; }
     }
+
+    public UnityEvent GameStart { get { return gameStart; } }
 
     public  UnityEvent GameEnd 
     { 
@@ -49,6 +52,11 @@ public class GlobalEvents : MonoBehaviour
 
     public void TriggerGameRestart()
     {
-        TriggerEvent(gameStart);
+        TriggerEvent(shopOpen);
+    }
+
+    public void TriggerOpenShop()
+    {
+        TriggerEvent(shopOpen);
     }
 }

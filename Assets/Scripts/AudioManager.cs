@@ -15,13 +15,12 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        events.GameStart.AddListener(StartMusic);
+        events.ShopOpen.AddListener(OpenShop);
         events.GameEnd.AddListener(StartSettingsMusic);
 
         StartSettingsMusic();
     }
 
-    public void ShopOpen() { soundFX.PlayOneShot(shopOpen); }
 
 
     public void PlayOnce(AudioClip audioClip)
@@ -29,10 +28,12 @@ public class AudioManager : MonoBehaviour
         soundFX.PlayOneShot(audioClip);
     }
 
-    public void StartMusic()
+    public void OpenShop()
     {
         settingsMusic.Stop();
         music.Play();
+
+        soundFX.PlayOneShot(shopOpen);
     }
 
     public void StartSettingsMusic()

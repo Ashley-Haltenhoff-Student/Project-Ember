@@ -43,10 +43,18 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        events.ShopOpen.AddListener(ShopOpen);
         events.GameStart.AddListener(GameStart);
         events.GameEnd.AddListener(GameEnd);
 
         Time.timeScale = 1; // In case it's paused from Game End
+    }
+
+    private void ShopOpen()
+    {
+        StartCoroutine(Timer()); // start timer
+
+        
     }
 
     private void GameStart()
@@ -58,9 +66,6 @@ public class UIManager : MonoBehaviour
         }
 
         StartCoroutine(PauseMenuCoroutine()); // Wait for pause menu
-        StartCoroutine(Timer());
-
-        
     }
 
     public void GameRestart()
@@ -86,8 +91,8 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator Timer()
     {
-        int minutesLeft = 0;
-        int secondsLeft = 5;
+        int minutesLeft = 1;
+        int secondsLeft = 0;
 
         minutesDisplay.text = minutesLeft.ToString();
 

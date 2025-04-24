@@ -22,7 +22,6 @@ public class SettingsManager : MonoBehaviour
     public int spawnRate;
     public bool impatientCustomers = false;
     public bool confusedCustomers = false;
-    public bool uncertainCustomers = false;
 
 
 
@@ -41,8 +40,6 @@ public class SettingsManager : MonoBehaviour
                         impatientCustomers = true; break;
                     case "confused":
                         confusedCustomers = true; break;
-                    case "uncertain":
-                        uncertainCustomers = true; break;
                     default: break;
                 }
             }

@@ -9,6 +9,7 @@ public class InventoryManager : MonoBehaviour
 
     [SerializeField] private NotifyManager notifyManager;
     [SerializeField] private UIManager UI;
+    [SerializeField] private GlobalEvents events;
 
 
     private void Start()
@@ -23,6 +24,13 @@ public class InventoryManager : MonoBehaviour
         }
 
         if (!notifyManager) { notifyManager = FindFirstObjectByType<NotifyManager>(); }
+
+        events.GameEnd.AddListener(EmptyInventory);
+    }
+
+    public void EmptyInventory()
+    {
+        inventory = new Order[5];
     }
 
     
@@ -91,9 +99,9 @@ public class InventoryManager : MonoBehaviour
         {
             if (!inventory[i])
             {
-                if (!inventory[i+1]) { yield break; } // There's none left to shift down
+                if (i + 1 == inventory.Length) { yield break; } // There's none left to shift down
 
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(0.5f);
 
                 // Shift down order
                 inventory[i] = inventory[i + 1]; 

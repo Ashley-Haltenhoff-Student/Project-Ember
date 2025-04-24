@@ -24,13 +24,16 @@ public class CustomerManager : MonoBehaviour
     private int normalCustomerStreak = 0;
     private int spawnRate = 5;
 
+    private bool gameOver = false;
+
 
     private void Start()
     {
        
         // Event listeners
-        events.GameStart.AddListener(StartSpawning);
+        events.ShopOpen.AddListener(StartSpawning);
         events.CustomerLeft.AddListener(DestroyCustomer);
+        events.GameEnd.AddListener(EndGame);
     }
 
     public void StartSpawning()
@@ -42,7 +45,6 @@ public class CustomerManager : MonoBehaviour
         // Add to customer types to know which ones are available to choose from when spawning
         if (settings.impatientCustomers) { customerTypes.Add("impatient"); }
         if (settings.confusedCustomers) { customerTypes.Add("confused"); }
-        if (settings.uncertainCustomers) { customerTypes.Add("uncertain"); }
 
         // Notify business choice when game starts
         notifyManager.Notify("Business chosen: " + settings.customerBusiness);
@@ -57,10 +59,12 @@ public class CustomerManager : MonoBehaviour
         while (true)
         {
             // Ensure there are open tables or too many customers
-            if (tableManager.OpenTables.Count > 0 && customers.Count < maxCustomers)
+            if (tableManager.OpenTables.Count > 0 && customers.Count < maxCustomers && !gameOver)
             {
                 // Find current spawn rate
                 yield return new WaitForSeconds(spawnRate);
+
+                if (gameOver) { break; }
 
                 CreateAndSpawnCustomer();
             }
@@ -82,6 +86,11 @@ public class CustomerManager : MonoBehaviour
         }
 
         StartCoroutine(Spawning());
+    }
+
+    private void EndGame()
+    {
+        gameOver = true;
     }
 
 
