@@ -81,8 +81,12 @@ public class InventoryManager : MonoBehaviour
 
     public bool Contains(Order order)
     {
+        if (order == null) return false;
+        
         foreach (Order o in inventory)
         {
+            if (o == null) continue;
+
             // Check for name, not simply if it's the correct order, because it will search for the order name
             if (o.name == order.name)
             {

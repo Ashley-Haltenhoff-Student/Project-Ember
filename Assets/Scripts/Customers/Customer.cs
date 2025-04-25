@@ -17,6 +17,7 @@ public class Customer : MonoBehaviour
     private string emotion = "happy";
     public int timer = 60;
     public string customerType = "normal";
+    private bool gotDrink = false;
 
     // Connections
     private Player player;
@@ -79,10 +80,7 @@ public class Customer : MonoBehaviour
                 // Validing in order to give them their drink
                 if (inventory.Contains(order) && !isDrinking)
                 {
-                    inventory.Remove(order); // Update Inventory
-                    UI.RemoveOrder(order.orderNumber); // Update UI
-
-                    reaction.React(emotion);
+                    
 
                     StartCoroutine(DrinkAndLeave());
                     isDrinking = true;
@@ -160,10 +158,19 @@ public class Customer : MonoBehaviour
 
     private IEnumerator DrinkAndLeave() // When customer gets a drink
     {
+        inventory.Remove(order); // Update Inventory
+        UI.RemoveOrder(order.orderNumber); // Update UI
+
+        reaction.React(emotion);
+
+
         notifyManager.Notify($"{name} got their order!");
         scoreManager.AddToScore(); // Update Score
+        gotDrink = true;
 
-        yield return new WaitForSeconds(3);
+        UI.secondsLeft += 5; // Add more time to the timer
+
+        yield return new WaitForSeconds(4);
 
         notifyManager.Notify($"{name} is leaving...");
         tableManager.TableIsOpen(chosenTable);
@@ -174,6 +181,8 @@ public class Customer : MonoBehaviour
 
     private void End()
     {
+        UI.RemoveOrder(order.orderNumber); // Update UI
+
         isGone = true;
         events.TriggerEvent(events.CustomerLeft);
     }
@@ -189,7 +198,7 @@ public class Customer : MonoBehaviour
 
         // Customer is now gone
         isGone = true;
-        events.TriggerEvent(events.CustomerLeft);
+        events.TriggerEvent(events.CustomerLeft); 
     }
 
 
@@ -202,11 +211,17 @@ public class Customer : MonoBehaviour
 
         while (timer > 0)
         {
+            // If they received a drink, don't do the actions following the timer
+            if (gotDrink) yield break; 
+
             yield return new WaitForSeconds(1);
             timer--;
         }
 
         reaction.React("angry");
+        UI.secondsLeft -= 5; // remove from overall timer
+        UI.RemoveOrder(order.orderNumber); // Update UI Orders
+
         StartCoroutine(Leave());
 
         Debug.Log($"Timer ran out for {customerType} {name}");

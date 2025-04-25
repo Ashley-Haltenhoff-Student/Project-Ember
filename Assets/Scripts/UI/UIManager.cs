@@ -26,6 +26,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text minutesDisplay;
     [SerializeField] private Text secondsDisplay;
     [SerializeField] private Text scoreDisplay;
+    [SerializeField] private GameObject spawnBtn;
 
     public bool applianceWindowOpen;
 
@@ -39,6 +40,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject hoverObject;
 
     private Dictionary<int, GameObject> uiOrderObjs = new Dictionary<int, GameObject>();
+
+    [Header("Timer")]
+    public int minuteStart = 2;
+    public int secondStart = 2;
+    public int minutesLeft = 2;
+    public int secondsLeft = 30;
 
 
     private void Start()
@@ -76,13 +83,20 @@ public class UIManager : MonoBehaviour
 
         settingsCanvas.SetActive(true);
         settingsMenu.SetActive(true);
+        spawnBtn.SetActive(true);
+
+        // Reset Timer
+        minutesLeft = minuteStart;
+        secondsLeft = secondStart;
+        minutesDisplay.text = minuteStart.ToString();
+        secondsDisplay.text = secondStart.ToString();
 
         Time.timeScale = 1; // In case it's paused from Game End
     }
 
     private void GameEnd()
     {
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
 
         scoreMenuScore.text = scoreDisplay.text;
         scoreMenu.SetActive(true);
@@ -91,8 +105,6 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator Timer()
     {
-        int minutesLeft = 1;
-        int secondsLeft = 0;
 
         minutesDisplay.text = minutesLeft.ToString();
 
@@ -107,7 +119,7 @@ public class UIManager : MonoBehaviour
                 secondsLeft = 59;
                 minutesLeft--;
 
-                if (minutesLeft == -1) { break; } // If the timer has reached the 0:00, then stop
+                if (minutesLeft <= -1) { break; } // If the timer has reached the 0:00, then stop
 
                 minutesDisplay.text = minutesLeft.ToString();
 
