@@ -30,6 +30,7 @@ public class Customer : MonoBehaviour
     private Table chosenTable;
     private NavMeshAgent agent;
     private ScoreManager scoreManager;
+    private AudioManager audioManager;
 
     [Header("Booleans")]
     [SerializeField] private bool isSitting = false;
@@ -49,6 +50,7 @@ public class Customer : MonoBehaviour
         reaction = GetComponentInChildren<Reaction>();
         order = GetComponentInChildren<Order>();
         scoreManager = FindFirstObjectByType<ScoreManager>();
+        audioManager = FindFirstObjectByType<AudioManager>();
 
         events.GameEnd.AddListener(End);
     }
@@ -80,14 +82,14 @@ public class Customer : MonoBehaviour
                 // Validing in order to give them their drink
                 if (inventory.Contains(order) && !isDrinking)
                 {
-                    
-
+                    audioManager.Confirm();
                     StartCoroutine(DrinkAndLeave());
                     isDrinking = true;
                 }
                 else
                 {
                     notifyManager.Notify("You don't have the correct order in your inventory.");
+                    audioManager.Denied();
                 }
             }
 

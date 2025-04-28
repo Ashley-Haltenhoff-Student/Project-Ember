@@ -29,12 +29,10 @@ public class CustomerManager : MonoBehaviour
 
     private void Start()
     {
-       
         // Event listeners
         events.ShopOpen.AddListener(StartSpawning);
         events.CustomerLeft.AddListener(DestroyCustomer);
         events.GameEnd.AddListener(EndGame);
-        events.GameRestart.AddListener(StartSpawning);
     }
 
     public void StartSpawning()

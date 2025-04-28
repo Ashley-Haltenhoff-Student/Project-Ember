@@ -33,6 +33,7 @@ public class UIManager : MonoBehaviour
     [Header("Connections")] 
     [SerializeField] private SettingsManager settings;
     [SerializeField] private GlobalEvents events;
+    [SerializeField] private AudioManager audioManager;
 
     [Header("Orders")]
     [SerializeField] private GameObject orderUIPrefab;
@@ -75,25 +76,6 @@ public class UIManager : MonoBehaviour
         StartCoroutine(PauseMenuCoroutine()); // Wait for pause menu
     }
 
-    public void GameRestart()
-    {
-        scoreMenu.SetActive(false);
-        welcomeScreen.SetActive(false);
-        tutorialMenu.SetActive(false);
-
-        settingsCanvas.SetActive(true);
-        settingsMenu.SetActive(true);
-        spawnBtn.SetActive(true);
-
-        // Reset Timer
-        minutesLeft = minuteStart;
-        secondsLeft = secondStart;
-        minutesDisplay.text = minuteStart.ToString();
-        secondsDisplay.text = secondStart.ToString();
-
-        Time.timeScale = 1; // In case it's paused from Game End
-    }
-
     private void GameEnd()
     {
         //Time.timeScale = 0;
@@ -114,9 +96,16 @@ public class UIManager : MonoBehaviour
             secondsLeft--;
 
             // If it's passed zero, lower minutes
-            if (secondsLeft == -1)
+            if (secondsLeft <= -1)
             {
-                secondsLeft = 59;
+                if (secondsLeft == -1)
+                {
+                    secondsLeft = 59;
+                }
+                else if (secondsLeft < -1)
+                {
+                    secondsLeft = 59 + secondsLeft;
+                }
                 minutesLeft--;
 
                 if (minutesLeft <= -1) { break; } // If the timer has reached the 0:00, then stop
@@ -124,6 +113,7 @@ public class UIManager : MonoBehaviour
                 minutesDisplay.text = minutesLeft.ToString();
 
             }
+            
 
             // Display with a zero if it's less than 10
             if ( secondsLeft < 10 )
@@ -147,7 +137,6 @@ public class UIManager : MonoBehaviour
             yield return null;
             if (Input.GetKeyDown(KeyCode.Escape) && applianceWindowOpen == false)
             {
-
                 TogglePause();
             }
             yield return null;
@@ -158,11 +147,13 @@ public class UIManager : MonoBehaviour
     {
         if (Time.timeScale > 0)
         {
+            audioManager.Pause();
             pauseMenu.SetActive(true);
             Time.timeScale = 0;
         }
         else
         {
+            audioManager.UnPause();
             pauseMenu.SetActive(false);
             Time.timeScale = 1;
         }

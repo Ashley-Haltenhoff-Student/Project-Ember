@@ -11,7 +11,6 @@ public class GlobalEvents : MonoBehaviour
     [SerializeField] private UnityEvent shopOpen = new();
     [SerializeField] private UnityEvent gameStart = new();
     [SerializeField] private UnityEvent gameEnd = new();
-    [SerializeField] private UnityEvent gameRestart = new();
 
     public UnityEvent CustomerLeft
     {
@@ -40,20 +39,12 @@ public class GlobalEvents : MonoBehaviour
         get { return gameEnd; } 
     }
 
-    public UnityEvent GameRestart
-    {
-        get { return gameRestart; }
-    }
 
     public void TriggerEvent(UnityEvent givenEvent)
     {
         givenEvent?.Invoke();
     }
 
-    public void TriggerGameRestart()
-    {
-        TriggerEvent(shopOpen);
-    }
 
     public void TriggerOpenShop()
     {
